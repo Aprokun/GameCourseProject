@@ -71,4 +71,12 @@ void Animation::setIsLoop(bool isLoop) {
     this->isLoop = isLoop;
 }
 
+void Animation::setIsReverse(bool isReverse) {
+    Animation::isReverse = isReverse;
+}
+
+void Animation::setIsPlaying(bool isPlaying) {
+    Animation::isPlaying = isPlaying;
+}
+
 Animation::~Animation() = default;

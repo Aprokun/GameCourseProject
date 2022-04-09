@@ -13,12 +13,26 @@ using namespace std;
 
 class AnimationManager {
 private:
-    map<string, Animation> nameToAnimation;
+    map<string, Animation> nameAnimation;
     string currentAnimation;
 public:
     AnimationManager();
 
-    void create(string animationName, Texture &t, int x, int y, int w, int h, int count, int speed, int step = 0, bool loop = true);
+    void
+    create(const string &animationName, Texture &t, int x, int y, int w, int h, int count, float speed, int step = 0,
+           bool loop = true);
+
+    void draw(RenderWindow &window, int x = 0, int y = 0);
+
+    void setCurrentAnimation(const string &currentAnimation);
+
+    void reverse(bool reverse);
+
+    void update(float time);
+
+    void pause();
+
+    void play();
 };
 
 

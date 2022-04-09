@@ -40,6 +40,8 @@ public:
 
     void setSpeed(float speed);
 
+    void setIsReverse(bool isReverse);
+
     Sprite &getSprite();
 
     vector<IntRect> &getFrames();
@@ -47,6 +49,8 @@ public:
     vector<IntRect> &getReverseFrames();
 
     ~Animation();
+
+    void setIsPlaying(bool isPlaying);
 };
 
 
