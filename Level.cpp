@@ -34,7 +34,7 @@ bool Level::loadFromFile(const std::string &filename) {
 
     TiXmlElement *tilesetElement;
     tilesetElement = map->FirstChildElement("tileset");
-    firstTileID = atoi(tilesetElement->Attribute("firstgid"));
+    firstTileId = atoi(tilesetElement->Attribute("firstgid"));
 
     TiXmlElement *image;
     image = tilesetElement->FirstChildElement("image");
@@ -161,9 +161,9 @@ bool Level::loadFromFile(const std::string &filename) {
                     width = atoi(objectElement->Attribute("width"));
                     height = atoi(objectElement->Attribute("height"));
                 } else {
-                    width = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].width;
-                    height = subRects[atoi(objectElement->Attribute("gid")) - firstTileID].height;
-                    sprite.setTextureRect(subRects[atoi(objectElement->Attribute("gid")) - firstTileID]);
+                    width = subRects[atoi(objectElement->Attribute("gid")) - firstTileId].width;
+                    height = subRects[atoi(objectElement->Attribute("gid")) - firstTileId].height;
+                    sprite.setTextureRect(subRects[atoi(objectElement->Attribute("gid")) - firstTileId]);
                 }
 
                 Object object;
