@@ -13,10 +13,6 @@
 using namespace sf;
 using namespace std;
 
-enum State {
-    STAY, WALK, JUMP, CLIMB
-};
-
 enum Dir {
     UP, RIGHT, DOWN, LEFT
 };
@@ -27,9 +23,15 @@ private:
     map<string, bool> key;
     Dir currentMoveDir;
 
+    enum State {
+        STAY, WALK, JUMP, CLIMB
+    } currentState;
+
     static Dir keyCheck();
 
 public:
+    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+
     void update(float time) override;
 };
 

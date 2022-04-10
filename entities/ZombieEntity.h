@@ -8,7 +8,10 @@
 #include "Entity.h"
 
 class ZombieEntity : public Entity {
+public:
+    ZombieEntity(AnimationManager &a, Level &level, int x, int y);
 
+    void update(float time) override;
 };
 
 

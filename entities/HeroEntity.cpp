@@ -21,3 +21,10 @@ Dir HeroEntity::keyCheck() {
         return DOWN;
     }
 }
+
+HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
+    option("Hero", 0, 5, "stay");
+    currentState = STAY;
+    isHit = false;
+    objects = level.getAllObjects();
+}

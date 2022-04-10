@@ -6,13 +6,13 @@
 
 #include <utility>
 
-Entity::Entity(AnimationManager &A, int x, int y) {
-    animationManager = A;
+Entity::Entity(AnimationManager &a, int x, int y) {
+    animationManager = a;
     this->x = x;
     this->y = y;
     dir = 0;
 
-    life = true;
+    isAlive = true;
     timer = 0;
     timerEnd = 0;
     dx = dy = 0;

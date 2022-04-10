@@ -13,12 +13,16 @@
 #include "entities/SlimeEntity.h"
 
 class EntityFactory {
+private:
+    Level currentLevel;
 public:
     enum EntityType {
         HERO, ZOMBIE, SLIME
     };
 
-    Entity *getEntity(EntityType type);
+    explicit EntityFactory(Level &currentLevel);
+
+    Entity *getEntity(EntityType type, AnimationManager &a, int x, int y);
 };
 
 

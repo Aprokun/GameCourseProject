@@ -8,7 +8,10 @@
 #include "Entity.h"
 
 class SlimeEntity : public Entity {
+public:
+    SlimeEntity(AnimationManager &a, Level &level, int x, int y);
 
+    void update(float time) override;
 };
 
 
