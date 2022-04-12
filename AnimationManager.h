@@ -33,6 +33,10 @@ public:
     void pause();
 
     void play();
+
+    float getCurrentAnimationHeight();
+
+    float getCurrenctAnimationWidth();
 };
 
 

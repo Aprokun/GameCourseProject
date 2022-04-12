@@ -10,10 +10,11 @@
 #include <map>
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "TinyXML/tinyxml.h"
+#include "TinyXML2/tinyxml2.h"
 
 using namespace std;
 using namespace sf;
+using namespace tinyxml2;
 
 struct Object {
     int getPropertyInt(const std::string &name);
@@ -44,17 +45,19 @@ private:
     vector<Object> objects;
     vector<Layer> layers;
 public:
-    bool loadFromFile(const std::string &filename);
+    bool loadFromXmlFile(const string &filename);
 
-    Object getObject(std::string name);
+    bool loadFromString(const string &levelString);
 
-    vector<Object> getObjects(std::string name);
+    Object getObject(const string &name);
+
+    vector<Object> getObjects(const string &name);
 
     vector<Object> getAllObjects();
 
-    void draw(sf::RenderWindow &window);
+    void draw(RenderWindow &window);
 
-    Vector2i getTileSize();
+    Vector2i getTileSize() const;
 };
 
 

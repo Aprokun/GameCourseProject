@@ -20,6 +20,8 @@ Dir HeroEntity::keyCheck() {
     } else if (Keyboard::isKeyPressed(Keyboard::S)) {
         return DOWN;
     }
+
+    return DOWN;
 }
 
 HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {

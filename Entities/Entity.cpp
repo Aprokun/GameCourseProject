@@ -29,8 +29,8 @@ FloatRect Entity::getRect() const {
 void Entity::option(string name, float speed, int health, string initAnimationName) {
     this->name = std::move(name);
     if (!initAnimationName.empty()) animationManager.setCurrentAnimation(initAnimationName);
-    w = animationManager.getW();
-    h = animationManager.getH();
+    w = animationManager.getCurrenctAnimationWidth();
+    h = animationManager.getCurrentAnimationHeight();
     dx = speed;
     this->health = health;
 }

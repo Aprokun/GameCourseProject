@@ -50,3 +50,11 @@ void AnimationManager::pause() {
 void AnimationManager::play() {
     nameAnimation[currentAnimation].setIsPlaying(true);
 }
+
+float AnimationManager::getCurrentAnimationHeight() {
+    return nameAnimation[currentAnimation].getFrames()[0].height;
+}
+
+float AnimationManager::getCurrenctAnimationWidth() {
+    return nameAnimation[currentAnimation].getFrames()[0].width;
+}
