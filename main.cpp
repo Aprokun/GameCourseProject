@@ -14,7 +14,7 @@ int main() {
     EntityFactory factory(l);
 
     try {
-        l.loadFromXmlFile("Levels/level1/levell.tmx");
+        l.loadFromXmlFile("Levels/level2/level.tmx");
     } catch (const exception &e) {
         cerr << e.what() << endl;
         return 1;

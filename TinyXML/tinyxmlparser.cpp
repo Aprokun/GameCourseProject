@@ -1,5 +1,5 @@
 /*
-www.sourceforge.net/projects/tinyxml
+www.sourceforge.net/projects/TinyXML
 Original code by Lee Thomason (www.grinninglizard.com)
 
 This software is provided 'as-is', without any express or implied 
@@ -42,9 +42,9 @@ distribution.
 // or order will break putstring.	
 TiXmlBase::Entity TiXmlBase::entity[TiXmlBase::NUM_ENTITY] =
         {
-                {"&amp;",  5, '&'},
-                {"&lt;",   4, '<'},
-                {"&gt;",   4, '>'},
+                {"&amp;", 5,  '&'},
+                {"&lt;", 4,   '<'},
+                {"&gt;", 4,   '>'},
                 {"&quot;", 6, '\"'},
                 {"&apos;", 6, '\''}
         };
@@ -384,12 +384,12 @@ const char *TiXmlBase::ReadName(const char *p, TIXML_STRING *name, TiXmlEncoding
     assert(p);
 
     // Names start with letters or underscores.
-    // Of course, in unicode, tinyxml has no idea what a letter *is*. The
+    // Of course, in unicode, TinyXML has no idea what a letter *is*. The
     // algorithm is generous.
     //
     // After that, they can be letters, underscores, numbers,
     // hyphens, or colons. (Colons are valid ony for namespaces,
-    // but tinyxml can't tell namespaces from names.)
+    // but TinyXML can't tell namespaces from names.)
     if (p && *p
         && (IsAlpha((unsigned char) *p, encoding) || *p == '_')) {
         const char *start = p;
@@ -763,7 +763,7 @@ TiXmlNode *TiXmlNode::Identify(const char *p, TiXmlEncoding encoding) {
     // - Elements start with a letter or underscore, but xml is reserved.
     // - Comments: <!--
     // - Decleration: <?xml
-    // - Everthing else is unknown to tinyxml.
+    // - Everthing else is unknown to TinyXML.
     //
 
     const char *xmlHeader = {"<?xml"};

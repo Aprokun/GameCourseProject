@@ -1,5 +1,5 @@
 /*
-www.sourceforge.net/projects/tinyxml
+www.sourceforge.net/projects/TinyXML
 Original code by Lee Thomason (www.grinninglizard.com)
 
 This software is provided 'as-is', without any express or implied
@@ -846,7 +846,7 @@ public:
     double
     DoubleValue() const;                                ///< Return the value of this attribute, converted to a double.
 
-    // Get the tinyxml string representation
+    // Get the TinyXML string representation
     const TIXML_STRING &NameTStr() const { return name; }
 
     /** QueryIntValue examines the value string. It is an alternative to the

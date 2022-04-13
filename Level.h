@@ -17,11 +17,11 @@ using namespace sf;
 using namespace tinyxml2;
 
 struct Object {
-    int getPropertyInt(const std::string &name);
+    int getPropertyInt(const string &name);
 
-    float getPropertyFloat(const std::string &name);
+    float getPropertyFloat(const string &name);
 
-    string getPropertyString(const std::string &name);
+    string getPropertyString(const string &name);
 
     string name;
     string type;
