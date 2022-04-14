@@ -7,27 +7,16 @@
 AnimationManager::AnimationManager() = default;
 
 void AnimationManager::create(
-        const string &animationName, Texture &t, int x, int y,
-        int w, int h, int count, float speed, int step, bool loop) {
-    Animation a;
-    a.setSpeed(speed);
-    a.getSprite().setTexture(t);
-    a.getSprite().setOrigin(0, h);
-    a.setIsLoop(loop);
-    a.setIsPlaying(false);
+        const string &name, Texture &t, int x, int y,
+        int w, int h, int count, float speed, int step,
+        bool isFlip, bool isPlaying) {
 
-    for (unsigned i = 0; i < count; ++i) {
-        a.getFrames().emplace_back(x + i * step, y, w, h);
-        a.getReverseFrames().emplace_back(x + i * step + w, y, -w, h);
-    }
-
-    nameAnimation[animationName] = a;
-
-    currentAnimation = animationName;
+    nameAnimation[name] = Animation(t, x, y, w, h, count, speed, isFlip, isPlaying, step);
 }
 
 void AnimationManager::setCurrentAnimation(const string &currentAnimation) {
-    AnimationManager::currentAnimation = currentAnimation;
+    this->currentAnimation = currentAnimation;
+    play();
 }
 
 void AnimationManager::draw(RenderWindow &window, int x, int y) {
@@ -35,8 +24,8 @@ void AnimationManager::draw(RenderWindow &window, int x, int y) {
     window.draw(nameAnimation[currentAnimation].getSprite());
 }
 
-void AnimationManager::reverse(bool reverse) {
-    nameAnimation[currentAnimation].setIsReverse(reverse);
+void AnimationManager::flip(bool flip) {
+    nameAnimation[currentAnimation].setIsFlip(flip);
 }
 
 void AnimationManager::update(float time) {

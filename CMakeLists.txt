@@ -36,6 +36,6 @@ add_executable(sfmltrain
         Entities/SlimeEntity.h
         Level.cpp
         Level.h
-        )
+        Game.cpp Game.h)
 
 target_link_libraries(sfmltrain sfml-graphics sfml-audio)

@@ -18,15 +18,15 @@ private:
 public:
     AnimationManager();
 
-    void
-    create(const string &animationName, Texture &t, int x, int y, int w, int h, int count, float speed, int step = 0,
-           bool loop = true);
+    void create(const string &name, Texture &t, int x, int y,
+                int w, int h, int count, float speed, int step,
+                bool isFlip, bool isPlaying);
 
     void draw(RenderWindow &window, int x = 0, int y = 0);
 
     void setCurrentAnimation(const string &currentAnimation);
 
-    void reverse(bool reverse);
+    void flip(bool flip);
 
     void update(float time);
 

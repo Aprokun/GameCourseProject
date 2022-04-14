@@ -5,23 +5,27 @@
 #include "Animation.h"
 
 
-Animation::Animation(Texture &t, int x, int y, int w, int h, int count, float speed, bool reverse, bool playing, int step) {
-    isPlaying = playing;
-    isReverse = reverse;
-    currentFrame = 0;
-    this->speed = speed;
+Animation::Animation(
+        Texture &t, int x, int y,
+        int w, int h, int count,
+        float speed, bool isFlip,
+        bool isPlaying, int step) {
 
     sprite.setTexture(t);
 
+    currentFrame = 0;
+    this->speed = speed;
+    this->isPlaying = isPlaying;
+    this->isFlip = isFlip;
+
     for (unsigned i = 0; i < count; ++i) {
         frames.emplace_back(x + i * step, y, w, h);
-        reverseFrames.emplace_back(x + i * step + w, y, -w, h);
+        flipFrames.emplace_back(x + i * step + w, y, -w, h);
     }
 }
 
 /* Обновляет анимацию в зависимости от времени.
-   time - время
-*/
+   time - время */
 void Animation::update(float time) {
     // если анимация не играет, то выходим
     if (!isPlaying) return;
@@ -36,18 +40,17 @@ void Animation::update(float time) {
     if (currentFrame > framesSize) currentFrame -= framesSize;
 
     // текущий фрагмент анимации
-    unsigned currentNumberFrame = currentFrame;
+    unsigned currentFrameNumber = currentFrame;
 
     //устанавливаем текущий фрагмент анимации
-    if (!isReverse) sprite.setTextureRect(frames[currentNumberFrame]);
-    else sprite.setTextureRect(reverseFrames[currentNumberFrame]);
+    if (!isFlip) sprite.setTextureRect(frames[currentFrameNumber]);
+    else sprite.setTextureRect(flipFrames[currentFrameNumber]);
 }
 
 Animation::Animation() {
     speed = 0.0f;
     currentFrame = 0;
-    isLoop = true;
-    isReverse = false;
+    isFlip = false;
     isPlaying = true;
 }
 
@@ -60,19 +63,15 @@ vector<IntRect> &Animation::getFrames() {
 }
 
 vector<IntRect> &Animation::getReverseFrames() {
-    return reverseFrames;
+    return flipFrames;
 }
 
 void Animation::setSpeed(float speed) {
     this->speed = speed;
 }
 
-void Animation::setIsLoop(bool isLoop) {
-    this->isLoop = isLoop;
-}
-
-void Animation::setIsReverse(bool isReverse) {
-    Animation::isReverse = isReverse;
+void Animation::setIsFlip(bool isReverse) {
+    Animation::isFlip = isReverse;
 }
 
 void Animation::setIsPlaying(bool isPlaying) {

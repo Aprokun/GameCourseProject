@@ -14,9 +14,9 @@ using namespace std;
 
 class Animation {
 private:
-    vector<IntRect> frames, reverseFrames;
+    vector<IntRect> frames, flipFrames;
     float currentFrame, speed;
-    bool isReverse, isPlaying, isLoop;
+    bool isFlip, isPlaying;
     Sprite sprite;
 public:
     Animation();
@@ -29,18 +29,16 @@ public:
         h - высота фрагмента анимации
         count - количество фрагментов анимации
         speed - скорость анимации
-        reverse - true, если это обратная анимация (для правой -> левая, для вверх -> вниз), иначе - false
-        playing - true, если анимация проигрывается, иначе - false
+        flip - true, если это обратная анимация (для правой -> левая, для вверх -> вниз), иначе - false
+        isPlaying - true, если анимация проигрывается, иначе - false
     */
-    Animation(Texture &t, int x, int y, int w, int h, int count, float speed, bool reverse, bool playing, int step);
+    Animation(Texture &t, int x, int y, int w, int h, int count, float speed, bool isFlip, bool isPlaying, int step);
 
     void update(float time);
 
-    void setIsLoop(bool isLoop);
-
     void setSpeed(float speed);
 
-    void setIsReverse(bool isReverse);
+    void setIsFlip(bool isReverse);
 
     Sprite &getSprite();
 
