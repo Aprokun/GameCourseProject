@@ -22,10 +22,6 @@ void Entity::draw(RenderWindow &window) {
     animationManager.draw(window, x, y + h);
 }
 
-FloatRect Entity::getRect() const {
-    return {x, y, w, h};
-}
-
 void Entity::option(string name, float speed, int health, string initAnimationName) {
     this->name = std::move(name);
     if (!initAnimationName.empty()) animationManager.setCurrentAnimation(initAnimationName);
@@ -33,4 +29,8 @@ void Entity::option(string name, float speed, int health, string initAnimationNa
     h = animationManager.getCurrentAnimationHeight();
     dx = speed;
     this->health = health;
+}
+
+void Entity::setKeyValue(const string &key, bool value) {
+    keys[key] = value;
 }

@@ -32,7 +32,7 @@ public:
         flip - true, если это обратная анимация (для правой -> левая, для вверх -> вниз), иначе - false
         isPlaying - true, если анимация проигрывается, иначе - false
     */
-    Animation(Texture &t, int x, int y, int w, int h, int count, float speed, bool isFlip, bool isPlaying, int step);
+    Animation(Texture &t, int x, int y, int w, int h, int count, float speed, int step);
 
     void update(float time);
 

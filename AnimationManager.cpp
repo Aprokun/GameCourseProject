@@ -11,12 +11,11 @@ void AnimationManager::create(
         int w, int h, int count, float speed, int step,
         bool isFlip, bool isPlaying) {
 
-    nameAnimation[name] = Animation(t, x, y, w, h, count, speed, isFlip, isPlaying, step);
+    nameAnimation[name] = Animation(t, x, y, w, h, count, speed, step);
 }
 
 void AnimationManager::setCurrentAnimation(const string &currentAnimation) {
     this->currentAnimation = currentAnimation;
-    play();
 }
 
 void AnimationManager::draw(RenderWindow &window, int x, int y) {

@@ -8,15 +8,14 @@
 Animation::Animation(
         Texture &t, int x, int y,
         int w, int h, int count,
-        float speed, bool isFlip,
-        bool isPlaying, int step) {
+        float speed, int step) {
 
     sprite.setTexture(t);
 
     currentFrame = 0;
     this->speed = speed;
-    this->isPlaying = isPlaying;
-    this->isFlip = isFlip;
+    this->isPlaying = true;
+    this->isFlip = false;
 
     for (unsigned i = 0; i < count; ++i) {
         frames.emplace_back(x + i * step, y, w, h);
@@ -34,6 +33,7 @@ void Animation::update(float time) {
     currentFrame += speed * time;
 
     unsigned long long int framesSize = frames.size();
+
     // если номер текущего фрагмента анимации
     // превышает общее количество фрагментов,
     // то обнуляем номер текущего фрагмента

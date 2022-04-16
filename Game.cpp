@@ -5,40 +5,46 @@
 #include "Game.h"
 
 void Game::start() {
-    RenderWindow window(VideoMode(800, 600), "SFML APP");
+    RenderWindow window(VideoMode(500, 500), "SFML APP");
 
-    if (isMenu) {
+    if (!isMenu) {
         drawMenu(window);
     }
 
     Image img;
     img.loadFromFile("EntitiesTexture/characters.png");
-    Texture q;
-    q.loadFromImage(img);
+    Texture texture;
+    texture.loadFromImage(img);
 
     AnimationManager qManager;
-    qManager.create("stay", q, 0, 0, 23, 24, 1, 0.002, 23, false, false);
-    qManager.create("walk", q, 0, 0, 23, 24, 2, 0.006, 23, false, true);
+    qManager.create("stay", texture, 0, 0, 23, 24, 1, 0.002, 23, false, false);
+    qManager.create("walk", texture, 0, 0, 23, 24, 2, 0.006, 23, false, true);
+
+    Level level;
+    level.loadFromXmlFile("Levels/level1/level.tmx");
+
+    EntityFactory factory(level);
+    Entity *hero = factory.getEntity(EntityFactory::HERO, qManager, 5, 5);
 
     Clock clock;
 
     while (window.isOpen()) {
         float time = clock.getElapsedTime().asMicroseconds();
-        time /= 500;
+        clock.restart();
+        time /= 650;
 
         Event event{};
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) window.close();
         }
 
-        qManager.setCurrentAnimation("stay");
+        if (Keyboard::isKeyPressed(Keyboard::Left)) hero->setKeyValue("A", true);
+        if (Keyboard::isKeyPressed(Keyboard::Right)) hero->setKeyValue("D", true);
+        if (Keyboard::isKeyPressed(Keyboard::Up)) hero->setKeyValue("W", true);
+        if (Keyboard::isKeyPressed(Keyboard::Down)) hero->setKeyValue("S", true);
 
-        if (Keyboard::isKeyPressed(Keyboard::D)) qManager.setCurrentAnimation("walk");
-
-        qManager.update(time);
-
-        window.clear(Color(255, 255, 255));
-        qManager.draw(window, 50, 50);
+        hero->update(time);
+        hero->draw(window);
         window.display();
     }
 }
@@ -84,10 +90,6 @@ void Game::drawMenu(RenderWindow &window) {
                 case 1: {
                     //TODO:сделать переход на следующее окно выбора лвла
                     break;
-                }
-                default: {
-                    cerr << "Произошла ошибка при выборе пункта меню" << endl;
-                    isMenu = false;
                 }
             }
         }

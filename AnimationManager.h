@@ -11,6 +11,10 @@
 
 using namespace std;
 
+enum AnimType {
+    STAY, WALK, JUMP
+};
+
 class AnimationManager {
 private:
     map<string, Animation> nameAnimation;

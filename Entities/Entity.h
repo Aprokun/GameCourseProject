@@ -17,17 +17,21 @@ using namespace sf;
 
 class Entity {
 protected:
-    float x, y, dx, dy, w, h;
+
+    float x{}, y{}, dx{}, dy{}, w{}, h{};
     AnimationManager animationManager;
     vector<Object> objects;
-    bool isAlive, dir;
-    float timer, timerEnd;
+    bool isAlive{}, dir{};
+    // только для hero
+    map<string, bool> keys;
+    float timer{}, timerEnd{};
     string name;
-    int health;
+    int health{};
 
     void option(string name, float speed = 0, int health = 10, string initAnimationName = "");
 
 public:
+
     Entity() {}
 
     Entity(AnimationManager &a, int x, int y);
@@ -36,9 +40,7 @@ public:
 
     void draw(RenderWindow &window);
 
-    FloatRect getRect() const;
-
-
+    void setKeyValue(const string &key, bool value);
 };
 
 

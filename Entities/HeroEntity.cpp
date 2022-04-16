@@ -5,23 +5,52 @@
 #include "HeroEntity.h"
 
 void HeroEntity::update(float time) {
-    currentMoveDir = keyCheck();
+    keyCheck();
 
+    //TODO: переделать строковые значения анимаций
+    // на константные (напр. enum)
+    if (currentState == STAY) {
+        animationManager.setCurrentAnimation("stay");
+    } else if (currentState == WALK) {
+        animationManager.setCurrentAnimation("walk");
+    } else if (currentState == JUMP) {
+        animationManager.setCurrentAnimation("jump");
+    }
+
+    if (isFlip) animationManager.flip(true);
+
+    x += dx * time;
+
+    dy += 0.0005f * time;
+    y += dy * time;
+
+    animationManager.update(time);
+
+    keys["W"] = keys["A"] = keys["S"] = keys["D"] = false;
 
 }
 
-Dir HeroEntity::keyCheck() {
-    if (Keyboard::isKeyPressed(Keyboard::A)) {
-        return LEFT;
-    } else if (Keyboard::isKeyPressed(Keyboard::W)) {
-        return UP;
-    } else if (Keyboard::isKeyPressed(Keyboard::D)) {
-        return RIGHT;
-    } else if (Keyboard::isKeyPressed(Keyboard::S)) {
-        return DOWN;
+void HeroEntity::keyCheck() {
+    if (keys["A"]) {
+        currentMoveDir = LEFT;
+        if (currentState == STAY) {
+            dx = -0.1;
+            isFlip = false;
+            currentState = WALK;
+        }
+    } else if (keys["D"]) {
+        currentMoveDir = RIGHT;
+        if (currentState == STAY) {
+            dx = 0.1;
+            isFlip = true;
+            currentState = WALK;
+        }
+    } else if (keys["W"]) {
+        if (currentState == STAY || currentState == WALK) {
+            isFlip = false;
+            dy = -0.27;
+        }
     }
-
-    return DOWN;
 }
 
 HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {

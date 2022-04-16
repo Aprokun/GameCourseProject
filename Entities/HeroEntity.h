@@ -14,22 +14,22 @@ using namespace sf;
 using namespace std;
 
 enum Dir {
-    UP, RIGHT, DOWN, LEFT
+    UP, RIGHT, DOWN, LEFT, NONE
 };
 
 class HeroEntity : public Entity {
 private:
-    bool isOnLadder, isHit;
-    map<string, bool> key;
+    bool isHit, isFlip;
     Dir currentMoveDir;
 
     enum State {
         STAY, WALK, JUMP, CLIMB
     } currentState;
 
-    static Dir keyCheck();
+    void keyCheck();
 
 public:
+
     HeroEntity(AnimationManager &a, Level &level, int x, int y);
 
     void update(float time) override;
