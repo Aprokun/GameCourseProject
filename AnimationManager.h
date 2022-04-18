@@ -41,6 +41,8 @@ public:
     float getCurrentAnimationHeight();
 
     float getCurrenctAnimationWidth();
+
+    void loadFromXml(const string &fileName, Texture &t);
 };
 
 

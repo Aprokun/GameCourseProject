@@ -5,7 +5,8 @@
 #include "Game.h"
 
 void Game::start() {
-    RenderWindow window(VideoMode(500, 500), "SFML APP");
+    RenderWindow window(VideoMode(450, 280), "SFML APP");
+    View camera(FloatRect(0, 0, 450, 280));
 
     if (!isMenu) {
         drawMenu(window);
@@ -13,40 +14,73 @@ void Game::start() {
 
     Image img;
     img.loadFromFile("EntitiesTexture/characters.png");
-    Texture texture;
-    texture.loadFromImage(img);
 
-    AnimationManager qManager;
-    qManager.create("stay", texture, 0, 0, 23, 24, 1, 0.002, 23, false, false);
-    qManager.create("walk", texture, 0, 0, 23, 24, 2, 0.006, 23, false, true);
+    Texture textureEnemy;
+    textureEnemy.loadFromImage(img);
+
+    Texture textureHero;
+    textureHero.loadFromImage(img);
+
+    Texture textureBigBamboni;
+    textureBigBamboni.loadFromImage(img);
+
+    AnimationManager heroAM;
+    heroAM.loadFromXml("Animation/Hero/anims.xml", textureHero);
+
+    AnimationManager bigBamboniAM;
+    bigBamboniAM.loadFromXml("Animation/BigBamboni/anims.xml", textureBigBamboni);
 
     Level level;
     level.loadFromXmlFile("Levels/level1/level.tmx");
 
+    Object heroObj = level.getObject("hero");
+
+    vector<Entity *> entities;
     EntityFactory factory(level);
-    Entity *hero = factory.getEntity(EntityFactory::HERO, qManager, 5, 5);
+
+    Entity *hero = factory.getEntity(EntityFactory::HERO, heroAM, heroObj.rect.left, heroObj.rect.top - 20);
+
+    for (const auto &enemy: level.getObjects("enemy")) {
+        entities.push_back(factory.getEntity(EntityFactory::BIGBAMBONI, bigBamboniAM, enemy.rect.left, enemy.rect.top));
+    }
 
     Clock clock;
 
+    cout << "Game ran" << endl;
     while (window.isOpen()) {
         float time = clock.getElapsedTime().asMicroseconds();
         clock.restart();
         time /= 650;
+        if (time > 40) time = 40;
 
         Event event{};
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) window.close();
         }
 
+        level.draw(window);
+
         if (Keyboard::isKeyPressed(Keyboard::Left)) hero->setKeyValue("A", true);
         if (Keyboard::isKeyPressed(Keyboard::Right)) hero->setKeyValue("D", true);
         if (Keyboard::isKeyPressed(Keyboard::Up)) hero->setKeyValue("W", true);
         if (Keyboard::isKeyPressed(Keyboard::Down)) hero->setKeyValue("S", true);
 
+        camera.setCenter(hero->getX(), hero->getY());
+
+        for (auto &entity: entities) {
+            entity->update(time);
+            entity->draw(window);
+        }
+
         hero->update(time);
         hero->draw(window);
+
         window.display();
     }
+
+    cout << "Game stopped" << endl;
+
+    exit(0);
 }
 
 Game::Game() {

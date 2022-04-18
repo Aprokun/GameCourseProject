@@ -9,15 +9,15 @@
 
 #include "entities/Entity.h"
 #include "entities/HeroEntity.h"
-#include "entities/ZombieEntity.h"
-#include "entities/SlimeEntity.h"
+#include "entities/SmallBamboni.h"
+#include "entities/BigBamboni.h"
 
 class EntityFactory {
 private:
     Level currentLevel;
 public:
     enum EntityType {
-        HERO, ZOMBIE, SLIME
+        HERO, BIGBAMBONI, SMALLBAMBONI
     };
 
     explicit EntityFactory(Level &currentLevel);

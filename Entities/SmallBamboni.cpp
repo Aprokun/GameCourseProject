@@ -2,9 +2,9 @@
 // Created by lagri on 09.04.2022.
 //
 
-#include "ZombieEntity.h"
+#include "SmallBamboni.h"
 
-void ZombieEntity::update(float time) {
+void SmallBamboni::update(float time) {
     x += dx * time;
     timer += time;
 
@@ -23,6 +23,6 @@ void ZombieEntity::update(float time) {
     animationManager.update(time);
 }
 
-ZombieEntity::ZombieEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
-    option("Zombie", 1.0f, 2, "move");
+SmallBamboni::SmallBamboni(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
+    option("SmallBamboni", 0.009f, 1, "walk");
 }

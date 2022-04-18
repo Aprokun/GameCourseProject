@@ -2,10 +2,9 @@
 // Created by lagri on 09.04.2022.
 //
 
-#include "SlimeEntity.h"
+#include "BigBamboni.h"
 
-
-void SlimeEntity::update(float time) {
+void BigBamboni::update(float time) {
     x += dx * time;
     timer += time;
 
@@ -24,6 +23,6 @@ void SlimeEntity::update(float time) {
     animationManager.update(time);
 }
 
-SlimeEntity::SlimeEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
-    option("Slime", 0.01, 1, "move");
+BigBamboni::BigBamboni(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
+    option("BigBamboni", 0.004, 2, "walk");
 }

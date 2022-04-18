@@ -23,7 +23,7 @@ private:
     Dir currentMoveDir;
 
     enum State {
-        STAY, WALK, JUMP, CLIMB
+        STAY, WALK, JUMP
     } currentState;
 
     void keyCheck();

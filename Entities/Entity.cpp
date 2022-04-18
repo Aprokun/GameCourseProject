@@ -34,3 +34,11 @@ void Entity::option(string name, float speed, int health, string initAnimationNa
 void Entity::setKeyValue(const string &key, bool value) {
     keys[key] = value;
 }
+
+float Entity::getX() const {
+    return x;
+}
+
+float Entity::getY() const {
+    return y;
+}

@@ -30,10 +30,10 @@ add_executable(sfmltrain
         Entities/Entity.h
         EntityFactory.cpp
         EntityFactory.h
-        Entities/ZombieEntity.cpp
-        Entities/ZombieEntity.h
-        Entities/SlimeEntity.cpp
-        Entities/SlimeEntity.h
+        Entities/SmallBamboni.cpp
+        Entities/SmallBamboni.h
+        Entities/BigBamboni.cpp
+        Entities/BigBamboni.h
         Level.cpp
         Level.h
         Game.cpp Game.h)

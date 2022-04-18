@@ -5,6 +5,7 @@
 #include "HeroEntity.h"
 
 void HeroEntity::update(float time) {
+
     keyCheck();
 
     //TODO: переделать строковые значения анимаций
@@ -27,10 +28,10 @@ void HeroEntity::update(float time) {
     animationManager.update(time);
 
     keys["W"] = keys["A"] = keys["S"] = keys["D"] = false;
-
 }
 
 void HeroEntity::keyCheck() {
+
     if (keys["A"]) {
         currentMoveDir = LEFT;
         if (currentState == STAY) {
@@ -54,8 +55,12 @@ void HeroEntity::keyCheck() {
 }
 
 HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
+
     option("Hero", 0, 5, "stay");
+
     currentState = STAY;
+
     isHit = false;
+
     objects = level.getAllObjects();
 }

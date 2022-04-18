@@ -46,3 +46,38 @@ float AnimationManager::getCurrentAnimationHeight() {
 float AnimationManager::getCurrenctAnimationWidth() {
     return nameAnimation[currentAnimation].getFrames()[0].width;
 }
+
+void AnimationManager::loadFromXml(const string &fileName, Texture &t) {
+    XMLDocument animFile;
+    animFile.LoadFile(fileName.c_str());
+
+    XMLElement *head = animFile.FirstChildElement("sprites");
+
+    XMLElement *animElement = head->FirstChildElement("animation");
+
+    while (animElement) {
+        Animation animation;
+        currentAnimation = animElement->Attribute("title");
+        int delay = atoi(animElement->Attribute("delay"));
+        animation.setSpeed(1.0 / delay);
+        animation.getSprite().setTexture(t);
+
+        XMLElement *cut = animElement->FirstChildElement("cut");
+        while (cut) {
+            int x = atoi(cut->Attribute("x")),
+                    y = atoi(cut->Attribute("y")),
+                    w = atoi(cut->Attribute("w")),
+                    h = atoi(cut->Attribute("h"));
+
+            animation.getFrames().emplace_back(x, y, w, h);
+            animation.getFlipFrames().emplace_back(x + w, y, -w, h);
+
+            cut = cut->NextSiblingElement("cut");
+        }
+
+        animation.getSprite().setOrigin(0, animation.getFrames()[0].top);
+
+        nameAnimation[currentAnimation] = animation;
+        animElement = animElement->NextSiblingElement("animation");
+    }
+}

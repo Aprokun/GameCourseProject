@@ -16,16 +16,24 @@ using namespace std;
 using namespace sf;
 
 class Entity {
+
 protected:
 
     float x{}, y{}, dx{}, dy{}, w{}, h{};
+
     AnimationManager animationManager;
+
     vector<Object> objects;
+
     bool isAlive{}, dir{};
+
     // только для hero
     map<string, bool> keys;
+
     float timer{}, timerEnd{};
+
     string name;
+
     int health{};
 
     void option(string name, float speed = 0, int health = 10, string initAnimationName = "");
@@ -41,6 +49,10 @@ public:
     void draw(RenderWindow &window);
 
     void setKeyValue(const string &key, bool value);
+
+    float getX() const;
+
+    float getY() const;
 };
 
 

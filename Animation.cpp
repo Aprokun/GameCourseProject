@@ -62,7 +62,7 @@ vector<IntRect> &Animation::getFrames() {
     return frames;
 }
 
-vector<IntRect> &Animation::getReverseFrames() {
+vector<IntRect> &Animation::getFlipFrames() {
     return flipFrames;
 }
 

@@ -44,11 +44,11 @@ public:
 
     vector<IntRect> &getFrames();
 
-    vector<IntRect> &getReverseFrames();
-
-    ~Animation();
+    vector<IntRect> &getFlipFrames();
 
     void setIsPlaying(bool isPlaying);
+
+    ~Animation();
 };
 
 
