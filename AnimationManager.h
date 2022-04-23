@@ -8,7 +8,9 @@
 #include <map>
 #include <string>
 #include "Animation.h"
+#include "TinyXML2/tinyxml2.h"
 
+using namespace tinyxml2;
 using namespace std;
 
 enum AnimType {

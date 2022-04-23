@@ -28,6 +28,8 @@ private:
 
     void keyCheck();
 
+    void collision(int num);
+
 public:
 
     HeroEntity(AnimationManager &a, Level &level, int x, int y);

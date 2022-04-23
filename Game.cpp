@@ -58,6 +58,7 @@ void Game::start() {
             if (event.type == Event::Closed) window.close();
         }
 
+
         level.draw(window);
 
         if (Keyboard::isKeyPressed(Keyboard::Left)) hero->setKeyValue("A", true);

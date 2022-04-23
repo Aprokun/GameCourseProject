@@ -21,9 +21,11 @@ void HeroEntity::update(float time) {
     if (isFlip) animationManager.flip(true);
 
     x += dx * time;
+    collision(0);
 
     dy += 0.0005f * time;
     y += dy * time;
+    collision(1);
 
     animationManager.update(time);
 
@@ -52,6 +54,48 @@ void HeroEntity::keyCheck() {
             dy = -0.27;
         }
     }
+}
+
+void HeroEntity::collision(int num) {
+    for (auto &object: objects)
+        if (getRect().intersects(object.rect)) {
+            if (object.name == "solid") {
+                if (dy > 0 && num == 1) {
+                    y = object.rect.top - h;
+                    dy = 0;
+                    currentState = STAY;
+                }
+                if (dy < 0 && num == 1) {
+                    y = object.rect.top + object.rect.height;
+                    dy = 0;
+                }
+                if (dx > 0 && num == 0) { x = object.rect.left - w; }
+                if (dx < 0 && num == 0) { x = object.rect.left + object.rect.width; }
+            }
+
+            if (object.name == "SlopeLeft") {
+                FloatRect r = object.rect;
+                int y0 = (x + w / 2 - r.left) * r.height / r.width + r.top - h;
+                if (y > y0)
+                    if (x + w / 2 > r.left) {
+                        y = y0;
+                        dy = 0;
+                        currentState = STAY;
+                    }
+            }
+
+            if (object.name == "SlopeRight") {
+                FloatRect r = object.rect;
+                int y0 = -(x + w / 2 - r.left) * r.height / r.width + r.top + r.height - h;
+                if (y > y0)
+                    if (x + w / 2 < r.left + r.width) {
+                        y = y0;
+                        dy = 0;
+                        currentState = STAY;
+                    }
+            }
+
+        }
 }
 
 HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {

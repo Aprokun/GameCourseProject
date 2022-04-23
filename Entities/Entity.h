@@ -38,6 +38,8 @@ protected:
 
     void option(string name, float speed = 0, int health = 10, string initAnimationName = "");
 
+    FloatRect getRect();
+
 public:
 
     Entity() {}

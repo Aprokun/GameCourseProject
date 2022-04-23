@@ -22,6 +22,10 @@ void Entity::draw(RenderWindow &window) {
     animationManager.draw(window, x, y + h);
 }
 
+FloatRect Entity::getRect() {
+    return FloatRect(x, y, w, h);
+}
+
 void Entity::option(string name, float speed, int health, string initAnimationName) {
     this->name = std::move(name);
     if (!initAnimationName.empty()) animationManager.setCurrentAnimation(initAnimationName);
