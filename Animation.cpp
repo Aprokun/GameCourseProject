@@ -4,7 +4,6 @@
 
 #include "Animation.h"
 
-
 Animation::Animation(
         Texture &t, int x, int y,
         int w, int h, int count,

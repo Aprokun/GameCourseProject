@@ -26,9 +26,11 @@ private:
         STAY, WALK, JUMP
     } currentState;
 
-    void keyCheck();
+    void handleKey();
 
     void collision(int num);
+
+    void handleAnimation(float time);
 
 public:
 

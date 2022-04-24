@@ -6,19 +6,9 @@
 
 void HeroEntity::update(float time) {
 
-    keyCheck();
+    handleKey();
 
-    //TODO: переделать строковые значения анимаций
-    // на константные (напр. enum)
-    if (currentState == STAY) {
-        animationManager.setCurrentAnimation("stay");
-    } else if (currentState == WALK) {
-        animationManager.setCurrentAnimation("walk");
-    } else if (currentState == JUMP) {
-        animationManager.setCurrentAnimation("jump");
-    }
-
-    if (isFlip) animationManager.flip(true);
+    handleAnimation(time);
 
     x += dx * time;
     collision(0);
@@ -28,32 +18,65 @@ void HeroEntity::update(float time) {
     collision(1);
 
     animationManager.update(time);
-
-    keys["W"] = keys["A"] = keys["S"] = keys["D"] = false;
 }
 
-void HeroEntity::keyCheck() {
+void HeroEntity::handleAnimation(float time) {
+
+    if (currentState == STAY) {
+        animationManager.setCurrentAnimation("stay");
+    }
+
+    if (currentState == WALK) {
+        animationManager.setCurrentAnimation("walk");
+    }
+
+    if (currentState == JUMP) {
+        animationManager.setCurrentAnimation("jump");
+    }
+
+    if (isFlip) animationManager.flip(true);
+    else animationManager.flip(false);
+
+    animationManager.update(time);
+}
+
+void HeroEntity::handleKey() {
 
     if (keys["A"]) {
-        currentMoveDir = LEFT;
+
+        isFlip = false;
+        dx = -0.1;
+
         if (currentState == STAY) {
-            dx = -0.1;
-            isFlip = false;
             currentState = WALK;
         }
+
     } else if (keys["D"]) {
-        currentMoveDir = RIGHT;
+
+        isFlip = true;
+        dx = 0.1;
+
         if (currentState == STAY) {
-            dx = 0.1;
-            isFlip = true;
             currentState = WALK;
         }
+
     } else if (keys["W"]) {
+
         if (currentState == STAY || currentState == WALK) {
-            isFlip = false;
+            currentState = JUMP;
             dy = -0.27;
         }
+
+    } else if (!(keys["R"] && keys["L"])) {
+
+        dx = 0;
+
+        if (currentState == WALK) {
+            currentState = STAY;
+        }
     }
+
+    keys["W"] = keys["A"] = keys["S"] = keys["D"] = false;
 }
 
 void HeroEntity::collision(int num) {

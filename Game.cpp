@@ -48,6 +48,8 @@ void Game::start() {
 
     cout << "Game ran" << endl;
     while (window.isOpen()) {
+        window.clear();
+
         float time = clock.getElapsedTime().asMicroseconds();
         clock.restart();
         time /= 650;
@@ -58,13 +60,12 @@ void Game::start() {
             if (event.type == Event::Closed) window.close();
         }
 
-
         level.draw(window);
 
-        if (Keyboard::isKeyPressed(Keyboard::Left)) hero->setKeyValue("A", true);
-        if (Keyboard::isKeyPressed(Keyboard::Right)) hero->setKeyValue("D", true);
-        if (Keyboard::isKeyPressed(Keyboard::Up)) hero->setKeyValue("W", true);
-        if (Keyboard::isKeyPressed(Keyboard::Down)) hero->setKeyValue("S", true);
+        if (Keyboard::isKeyPressed(Keyboard::W)) hero->setKeyValue("W", true);
+        if (Keyboard::isKeyPressed(Keyboard::A)) hero->setKeyValue("A", true);
+        if (Keyboard::isKeyPressed(Keyboard::S)) hero->setKeyValue("S", true);
+        if (Keyboard::isKeyPressed(Keyboard::D)) hero->setKeyValue("D", true);
 
         camera.setCenter(hero->getX(), hero->getY());
 
