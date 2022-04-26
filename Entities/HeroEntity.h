@@ -19,7 +19,7 @@ enum Dir {
 
 class HeroEntity : public Entity {
 private:
-    bool isHit, isFlip;
+    bool hit, flip;
     Dir currentMoveDir;
 
     enum State {
@@ -34,9 +34,17 @@ private:
 
 public:
 
+    bool isHit() const;
+
+    void setIsHit(bool isHit);
+
     HeroEntity(AnimationManager &a, Level &level, int x, int y);
 
     void update(float time) override;
+
+    string getObjName() override;
+
+    Dir getCurrentMoveDir() const;
 };
 
 

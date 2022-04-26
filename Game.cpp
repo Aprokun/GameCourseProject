@@ -5,8 +5,7 @@
 #include "Game.h"
 
 void Game::start() {
-    RenderWindow window(VideoMode(450, 280), "SFML APP");
-    View camera(FloatRect(0, 0, 450, 280));
+    RenderWindow window(VideoMode(900, 900), "SFML APP");
 
     if (!isMenu) {
         drawMenu(window);
@@ -38,11 +37,13 @@ void Game::start() {
     vector<Entity *> entities;
     EntityFactory factory(level);
 
-    Entity *hero = factory.getEntity(EntityFactory::HERO, heroAM, heroObj.rect.left, heroObj.rect.top - 20);
+    auto *hero = new HeroEntity(heroAM, level, heroObj.rect.left, heroObj.rect.top);
 
     for (const auto &enemy: level.getObjects("enemy")) {
         entities.push_back(factory.getEntity(EntityFactory::BIGBAMBONI, bigBamboniAM, enemy.rect.left, enemy.rect.top));
     }
+
+    const Object &endBlock = level.getObject("end");
 
     Clock clock;
 
@@ -67,11 +68,44 @@ void Game::start() {
         if (Keyboard::isKeyPressed(Keyboard::S)) hero->setKeyValue("S", true);
         if (Keyboard::isKeyPressed(Keyboard::D)) hero->setKeyValue("D", true);
 
-        camera.setCenter(hero->getX(), hero->getY());
-
         for (auto &entity: entities) {
+
+            if (entity->getObjName() == "enemy") {
+
+                if (entity->getHealth() <= 0) continue;
+
+                if (hero->getRect().intersects(entity->getRect())) {
+
+                    if (hero->getDy() > 0.0) {
+
+                        entity->setDx(0.0);
+                        hero->setDy(-0.2);
+
+                        entity->setHealth(0);
+
+                    } else if (!hero->isHit()) {
+
+                        hero->setHealth(hero->getHealth() - 5);
+
+                        hero->setIsHit(true);
+
+                        if (hero->getCurrentMoveDir() == Dir::RIGHT) {
+                            hero->setX(hero->getX() + 10);
+                        } else {
+                            hero->setX(hero->getX() - 10);
+                        }
+                    }
+                }
+            }
+
             entity->update(time);
             entity->draw(window);
+        }
+
+
+        if (hero->getRect().intersects(endBlock.rect)) {
+            cout << "Level passed!!!" << "Congrats!" << endl;
+            exit(0);
         }
 
         hero->update(time);

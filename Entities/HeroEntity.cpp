@@ -34,7 +34,7 @@ void HeroEntity::handleAnimation(float time) {
         animationManager.setCurrentAnimation("jump");
     }
 
-    if (isFlip) animationManager.flip(true);
+    if (flip) animationManager.flip(true);
     else animationManager.flip(false);
 
     animationManager.update(time);
@@ -44,7 +44,7 @@ void HeroEntity::handleKey() {
 
     if (keys["A"]) {
 
-        isFlip = false;
+        flip = false;
         dx = -0.1;
 
         if (currentState == STAY) {
@@ -53,7 +53,7 @@ void HeroEntity::handleKey() {
 
     } else if (keys["D"]) {
 
-        isFlip = true;
+        flip = true;
         dx = 0.1;
 
         if (currentState == STAY) {
@@ -127,7 +127,23 @@ HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity
 
     currentState = STAY;
 
-    isHit = false;
+    hit = false;
 
     objects = level.getAllObjects();
+}
+
+string HeroEntity::getObjName() {
+    return "hero";
+}
+
+bool HeroEntity::isHit() const {
+    return hit;
+}
+
+void HeroEntity::setIsHit(bool isHit) {
+    hit = isHit;
+}
+
+Dir HeroEntity::getCurrentMoveDir() const {
+    return currentMoveDir;
 }

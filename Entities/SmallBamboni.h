@@ -12,6 +12,8 @@ public:
     SmallBamboni(AnimationManager &a, Level &level, int x, int y);
 
     void update(float time) override;
+
+    string getObjName() override;
 };
 
 

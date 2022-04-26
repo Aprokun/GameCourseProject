@@ -26,3 +26,7 @@ void BigBamboni::update(float time) {
 BigBamboni::BigBamboni(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
     option("BigBamboni", 0.004, 2, "walk");
 }
+
+string BigBamboni::getObjName() {
+    return "enemy";
+}

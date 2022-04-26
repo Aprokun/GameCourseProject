@@ -16,7 +16,6 @@ using namespace std;
 using namespace sf;
 
 class Entity {
-
 protected:
 
     float x{}, y{}, dx{}, dy{}, w{}, h{};
@@ -32,21 +31,18 @@ protected:
 
     float timer{}, timerEnd{};
 
-    string name;
-
     int health{};
 
     void option(string name, float speed = 0, int health = 10, string initAnimationName = "");
 
-    FloatRect getRect();
-
 public:
-
     Entity() {}
 
     Entity(AnimationManager &a, int x, int y);
 
     virtual void update(float time) = 0;
+
+    virtual string getObjName() = 0;
 
     void draw(RenderWindow &window);
 
@@ -55,6 +51,28 @@ public:
     float getX() const;
 
     float getY() const;
+
+    void setX(float x);
+
+    void setY(float y);
+
+    void setDx(float dx);
+
+    void setDy(float dy);
+
+    void setDir(bool dir);
+
+    void setHealth(int health);
+
+    float getDx() const;
+
+    float getDy() const;
+
+    bool isDir() const;
+
+    FloatRect getRect();
+
+    int getHealth() const;
 };
 
 

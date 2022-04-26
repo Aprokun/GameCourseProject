@@ -27,7 +27,6 @@ FloatRect Entity::getRect() {
 }
 
 void Entity::option(string name, float speed, int health, string initAnimationName) {
-    this->name = std::move(name);
     if (!initAnimationName.empty()) animationManager.setCurrentAnimation(initAnimationName);
     w = animationManager.getCurrenctAnimationWidth();
     h = animationManager.getCurrentAnimationHeight();
@@ -45,4 +44,44 @@ float Entity::getX() const {
 
 float Entity::getY() const {
     return y;
+}
+
+int Entity::getHealth() const {
+    return health;
+}
+
+float Entity::getDx() const {
+    return dx;
+}
+
+float Entity::getDy() const {
+    return dy;
+}
+
+bool Entity::isDir() const {
+    return dir;
+}
+
+void Entity::setX(float x) {
+    Entity::x = x;
+}
+
+void Entity::setY(float y) {
+    Entity::y = y;
+}
+
+void Entity::setDx(float dx) {
+    Entity::dx = dx;
+}
+
+void Entity::setDy(float dy) {
+    Entity::dy = dy;
+}
+
+void Entity::setDir(bool dir) {
+    Entity::dir = dir;
+}
+
+void Entity::setHealth(int health) {
+    Entity::health = health;
 }

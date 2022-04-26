@@ -5,9 +5,7 @@
 #include "EntityFactory.h"
 
 Entity *EntityFactory::getEntity(EntityFactory::EntityType type, AnimationManager &a, int x, int y) {
-    if (type == EntityType::HERO) {
-        return new HeroEntity(a, currentLevel, x, y);
-    } else if (type == EntityType::SMALLBAMBONI) {
+    if (type == EntityType::SMALLBAMBONI) {
         return new SmallBamboni(a, currentLevel, x, y);
     } else if (type == EntityType::BIGBAMBONI) {
         return new BigBamboni(a, currentLevel, x, y);

@@ -26,3 +26,7 @@ void SmallBamboni::update(float time) {
 SmallBamboni::SmallBamboni(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
     option("SmallBamboni", 0.009f, 1, "walk");
 }
+
+string SmallBamboni::getObjName() {
+    return "enemy";
+}
