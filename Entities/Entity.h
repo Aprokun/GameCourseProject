@@ -24,19 +24,18 @@ protected:
 
     vector<Object> objects;
 
-    bool isAlive{}, dir{};
-
-    // только для hero
-    map<string, bool> keys;
+    bool live{}, dir{};
 
     float timer{}, timerEnd{};
 
     int health{};
 
-    void option(string name, float speed = 0, int health = 10, string initAnimationName = "");
+    void option(const string &name, float speed = 0, int health = 10, const string &initAnimationName = "");
 
 public:
     Entity() {}
+
+    bool isLive() const;
 
     Entity(AnimationManager &a, int x, int y);
 

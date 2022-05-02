@@ -12,30 +12,26 @@ Entity::Entity(AnimationManager &a, int x, int y) {
     this->y = y;
     dir = 0;
 
-    isAlive = true;
+    live = true;
     timer = 0;
     timerEnd = 0;
     dx = dy = 0;
 }
 
 void Entity::draw(RenderWindow &window) {
-    animationManager.draw(window, x, y + h);
+    animationManager.draw(window, x, y);
 }
 
 FloatRect Entity::getRect() {
     return FloatRect(x, y, w, h);
 }
 
-void Entity::option(string name, float speed, int health, string initAnimationName) {
+void Entity::option(const string &name, float speed, int health, const string &initAnimationName) {
     if (!initAnimationName.empty()) animationManager.setCurrentAnimation(initAnimationName);
-    w = animationManager.getCurrenctAnimationWidth();
+    w = animationManager.getCurrentAnimationWidth();
     h = animationManager.getCurrentAnimationHeight();
     dx = speed;
     this->health = health;
-}
-
-void Entity::setKeyValue(const string &key, bool value) {
-    keys[key] = value;
 }
 
 float Entity::getX() const {
@@ -84,4 +80,8 @@ void Entity::setDir(bool dir) {
 
 void Entity::setHealth(int health) {
     Entity::health = health;
+}
+
+bool Entity::isLive() const {
+    return live;
 }

@@ -17,7 +17,7 @@ void SmallBamboni::update(float time) {
         animationManager.setCurrentAnimation("dead");
         dx = 0;
         timerEnd += time;
-        if (timerEnd > 4000) isAlive = false;
+        if (timerEnd > 4000) live = false;
     }
 
     animationManager.update(time);

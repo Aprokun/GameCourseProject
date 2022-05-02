@@ -17,14 +17,14 @@ void BigBamboni::update(float time) {
         animationManager.setCurrentAnimation("dead");
         dx = 0;
         timerEnd += time;
-        if (timerEnd > 4000) isAlive = false;
+        if (timerEnd > 4000) live = false;
     }
 
     animationManager.update(time);
 }
 
 BigBamboni::BigBamboni(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
-    option("BigBamboni", 0.004, 2, "walk");
+    option("BigBamboni", 0.04, 1, "walk");
 }
 
 string BigBamboni::getObjName() {

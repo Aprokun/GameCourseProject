@@ -12,17 +12,15 @@ using namespace sf;
 using namespace std;
 
 class Game {
-private:
-    bool isMenu;
-
-    void drawMenu(RenderWindow &window);
-
 public:
-    Game();
 
-    void setIsMenu(bool isMenu);
+    static void start();
 
-    void start();
+    static void setPressedKeyset(HeroEntity *hero);
+
+    static void handleEntityInteraction(
+            RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time,
+            const Object &endBlock);
 };
 
 

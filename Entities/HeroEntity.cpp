@@ -121,6 +121,10 @@ void HeroEntity::collision(int num) {
         }
 }
 
+void HeroEntity::setKeyValue(const string &key, bool value) {
+    keys[key] = value;
+}
+
 HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity(a, x, y) {
 
     option("Hero", 0, 5, "stay");

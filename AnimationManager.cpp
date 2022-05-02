@@ -43,7 +43,7 @@ float AnimationManager::getCurrentAnimationHeight() {
     return nameAnimation[currentAnimation].getFrames()[0].height;
 }
 
-float AnimationManager::getCurrenctAnimationWidth() {
+float AnimationManager::getCurrentAnimationWidth() {
     return nameAnimation[currentAnimation].getFrames()[0].width;
 }
 

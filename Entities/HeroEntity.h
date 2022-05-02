@@ -26,6 +26,9 @@ private:
         STAY, WALK, JUMP
     } currentState;
 
+    // только для hero
+    map<string, bool> keys;
+
     void handleKey();
 
     void collision(int num);
@@ -41,6 +44,8 @@ public:
     HeroEntity(AnimationManager &a, Level &level, int x, int y);
 
     void update(float time) override;
+
+    void setKeyValue(const string &key, bool value);
 
     string getObjName() override;
 
