@@ -33,26 +33,8 @@ void Game::start() {
     Object heroObj = level.getObject("hero");
     auto *hero = new HeroEntity(heroAM, level, heroObj.rect.left, heroObj.rect.top);
 
-    // Сущности
     vector<Entity *> entities;
-
-    // Инициализация противников через фабрику,
-    // считывая их изначальное расположение на карте
-    for (const auto &enemy: level.getObjects("enemy")) {
-        if (enemy.type == "big_bamboni") {
-            entities.push_back(
-                    factory.getEntity(
-                            EntityFactory::BIGBAMBONI, bigBamboniAM, enemy.rect.left, enemy.rect.top
-                    )
-            );
-        } else if (enemy.type == "small_bamboni") {
-            entities.push_back(
-                    factory.getEntity(
-                            EntityFactory::SMALLBAMBONI, smallBamboniAM, enemy.rect.left, enemy.rect.top
-                    )
-            );
-        }
-    }
+    initEnemies(bigBamboniAM, smallBamboniAM, level, factory, entities);
 
     // Инициализация блока для активации
     // окончания игры
@@ -91,10 +73,30 @@ void Game::start() {
     exit(0);
 }
 
+/* Инициализация противников через фабрику,
+ * считывая их изначальное расположение на карте */
+void Game::initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level,
+                       EntityFactory &factory, vector<Entity *> &entities) {
+    for (const auto &enemy: level.getObjects("enemy")) {
+        if (enemy.type == "big_bamboni") {
+            entities.push_back(
+                    factory.getEntity(
+                            EntityFactory::BIGBAMBONI, bigBamboniAM, enemy.rect.left, enemy.rect.top
+                    )
+            );
+        } else if (enemy.type == "small_bamboni") {
+            entities.push_back(
+                    factory.getEntity(
+                            EntityFactory::SMALLBAMBONI, smallBamboniAM, enemy.rect.left, enemy.rect.top
+                    )
+            );
+        }
+    }
+}
+
 // Обработка взаимодействия персонажа с различными сущностями
-void Game::handleEntityInteraction(
-        RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time,
-        const Object &endBlock) {
+void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities,
+                                   float time, const Object &endBlock) {
     for (auto &entity: entities) {
         if (entity->getObjName() == "enemy") {
 

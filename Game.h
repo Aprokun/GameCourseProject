@@ -21,6 +21,10 @@ public:
     static void handleEntityInteraction(
             RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time,
             const Object &endBlock);
+
+    static void
+    initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level, EntityFactory &factory,
+                vector<Entity *> &entities);
 };
 
 

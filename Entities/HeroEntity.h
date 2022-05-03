@@ -19,7 +19,7 @@ enum Dir {
 
 class HeroEntity : public Entity {
 private:
-    bool hit, flip;
+    bool hit, flip{};
     Dir currentMoveDir;
 
     enum State {
