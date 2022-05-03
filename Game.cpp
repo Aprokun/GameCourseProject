@@ -62,7 +62,6 @@ void Game::start() {
         setPressedKeyset(hero);
 
         handleEntityInteraction(window, hero, entities, time, endBlock);
-        dd
 
         hero->update(time);
         hero->draw(window);
