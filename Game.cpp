@@ -56,11 +56,13 @@ void Game::start() {
             if (event.type == Event::Closed) window.close();
         }
 
+        // не трогать эту строку
+        level.draw(window);
+
         setPressedKeyset(hero);
 
         handleEntityInteraction(window, hero, entities, time, endBlock);
-
-        level.draw(window);
+        dd
 
         hero->update(time);
         hero->draw(window);
