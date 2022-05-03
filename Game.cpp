@@ -41,22 +41,20 @@ void Game::start() {
     const Object &endBlock = level.getObject("end");
 
     Clock clock;
+    float time;
 
     cout << "Game ran" << endl;
     while (window.isOpen()) {
         window.clear();
 
-        float time = clock.getElapsedTime().asMicroseconds();
-        clock.restart();
-        time /= 650;
-        if (time > 60) time = 60;
+        updateTime(clock, time);
 
         Event event{};
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) window.close();
         }
 
-        // не трогать эту строку
+        // Не трогать эту строку
         level.draw(window);
 
         setPressedKeyset(hero);
@@ -72,6 +70,14 @@ void Game::start() {
     cout << "Game stopped" << endl;
 
     exit(0);
+}
+
+/* Обновление времени для отрисовки и обработки игры */
+void Game::updateTime(Clock &clock, float &time) {
+    time = clock.getElapsedTime().asMicroseconds();
+    clock.restart();
+    time /= 650;
+    if (time > 60) time = 60;
 }
 
 /* Инициализация противников через фабрику,
@@ -95,7 +101,7 @@ void Game::initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBa
     }
 }
 
-// Обработка взаимодействия персонажа с различными сущностями
+/* Обработка взаимодействия персонажа с различными сущностями */
 void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities,
                                    float time, const Object &endBlock) {
     for (auto &entity: entities) {

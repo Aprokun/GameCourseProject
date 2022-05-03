@@ -151,3 +151,7 @@ void HeroEntity::setIsHit(bool isHit) {
 Dir HeroEntity::getCurrentMoveDir() const {
     return currentMoveDir;
 }
+
+string HeroEntity::getName() {
+    return "Hero";
+}

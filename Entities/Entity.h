@@ -24,6 +24,8 @@ protected:
 
     vector<Object> objects;
 
+    string name;
+
     bool live{}, dir{};
 
     float timer{}, timerEnd{};
@@ -42,6 +44,8 @@ public:
     virtual void update(float time) = 0;
 
     virtual string getObjName() = 0;
+
+    virtual string getName() = 0;
 
     void draw(RenderWindow &window);
 

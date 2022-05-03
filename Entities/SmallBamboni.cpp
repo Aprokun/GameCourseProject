@@ -30,3 +30,7 @@ SmallBamboni::SmallBamboni(AnimationManager &a, Level &level, int x, int y) : En
 string SmallBamboni::getObjName() {
     return "enemy";
 }
+
+string SmallBamboni::getName() {
+    return name;
+}

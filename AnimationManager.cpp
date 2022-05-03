@@ -6,14 +6,6 @@
 
 AnimationManager::AnimationManager() = default;
 
-void AnimationManager::create(
-        const string &name, Texture &t, int x, int y,
-        int w, int h, int count, float speed, int step,
-        bool isFlip, bool isPlaying) {
-
-    nameAnimation[name] = Animation(t, x, y, w, h, count, speed, step);
-}
-
 void AnimationManager::setCurrentAnimation(const string &currentAnimation) {
     this->currentAnimation = currentAnimation;
 }
@@ -29,14 +21,6 @@ void AnimationManager::flip(bool flip) {
 
 void AnimationManager::update(float time) {
     nameAnimation[currentAnimation].update(time);
-}
-
-void AnimationManager::pause() {
-    nameAnimation[currentAnimation].setIsPlaying(false);
-}
-
-void AnimationManager::play() {
-    nameAnimation[currentAnimation].setIsPlaying(true);
 }
 
 float AnimationManager::getCurrentAnimationHeight() {

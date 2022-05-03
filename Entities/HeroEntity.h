@@ -26,7 +26,6 @@ private:
         STAY, WALK, JUMP
     } currentState;
 
-    // только для hero
     map<string, bool> keys;
 
     void handleKey();
@@ -48,6 +47,8 @@ public:
     void setKeyValue(const string &key, bool value);
 
     string getObjName() override;
+
+    string getName() override;
 
     Dir getCurrentMoveDir() const;
 };

@@ -25,6 +25,8 @@ public:
     static void
     initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level, EntityFactory &factory,
                 vector<Entity *> &entities);
+
+    static void updateTime(Clock &clock, float &time);
 };
 
 

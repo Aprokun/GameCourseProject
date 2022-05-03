@@ -19,7 +19,13 @@ Entity::Entity(AnimationManager &a, int x, int y) {
 }
 
 void Entity::draw(RenderWindow &window) {
-    animationManager.draw(window, x, y);
+    if (getObjName() == "enemy")
+        if (getName() == "BigBamboni")
+            animationManager.draw(window, x, y + 2.6 * h);
+        else if (getName() == "SmallBamboni")
+            animationManager.draw(window, x, y + 4.2 * h);
+        else
+            animationManager.draw(window, x, y);
 }
 
 FloatRect Entity::getRect() {
@@ -27,6 +33,7 @@ FloatRect Entity::getRect() {
 }
 
 void Entity::option(const string &name, float speed, int health, const string &initAnimationName) {
+    this->name = name;
     if (!initAnimationName.empty()) animationManager.setCurrentAnimation(initAnimationName);
     w = animationManager.getCurrentAnimationWidth();
     h = animationManager.getCurrentAnimationHeight();

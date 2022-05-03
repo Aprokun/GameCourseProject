@@ -30,3 +30,7 @@ BigBamboni::BigBamboni(AnimationManager &a, Level &level, int x, int y) : Entity
 string BigBamboni::getObjName() {
     return "enemy";
 }
+
+string BigBamboni::getName() {
+    return name;
+}
