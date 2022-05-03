@@ -8,7 +8,7 @@ void SmallBamboni::update(float time) {
     x += dx * time;
     timer += time;
 
-    if (timer > 3200) {
+    if (timer > 1900) {
         dx *= -1;
         timer = 0;
     }
