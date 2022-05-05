@@ -34,11 +34,13 @@ void Game::start() {
     auto *hero = new HeroEntity(heroAM, level, heroObj.rect.left, heroObj.rect.top);
 
     vector<Entity *> entities;
-    initEnemies(bigBamboniAM, smallBamboniAM, level, factory, entities);
+    initEnemies(entities, bigBamboniAM, smallBamboniAM, level, factory);
 
     // Инициализация блока для активации
     // окончания игры
     const Object &endBlock = level.getObject("end");
+
+    const Object &key = level.getObject("key");
 
     Clock clock;
     float time;
@@ -59,7 +61,7 @@ void Game::start() {
 
         setPressedKeyset(hero);
 
-        handleEntityInteraction(window, hero, entities, time, endBlock);
+        handleEntityInteraction(window, hero, entities, time, endBlock, key);
 
         hero->update(time);
         hero->draw(window);
@@ -82,8 +84,8 @@ void Game::updateTime(Clock &clock, float &time) {
 
 /* Инициализация противников через фабрику,
  * считывая их изначальное расположение на карте */
-void Game::initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level,
-                       EntityFactory &factory, vector<Entity *> &entities) {
+void Game::initEnemies(vector<Entity *> &entities, AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM,
+                       Level &level, EntityFactory &factory) {
     for (const auto &enemy: level.getObjects("enemy")) {
         if (enemy.type == "big_bamboni") {
             entities.push_back(
@@ -103,7 +105,7 @@ void Game::initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBa
 
 /* Обработка взаимодействия персонажа с различными сущностями */
 void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities,
-                                   float time, const Object &endBlock) {
+                                   float time, const Object &endBlock, const Object &key) {
     for (auto &entity: entities) {
         if (entity->getObjName() == "enemy") {
 
@@ -116,19 +118,19 @@ void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vecto
                     entity->setDx(0.0);
                     hero->setDy(-0.2);
 
-                    entity->setHealth(0);
+                    entity->setHealth(entity->getHealth() - 1);
 
                 } else if (!hero->isHit()) {
 
-                    hero->setHealth(hero->getHealth() - 5);
+                    hero->setHealth(hero->getHealth() - 1);
 
                     hero->setIsHit(true);
 
-                    if (hero->getCurrentMoveDir() == RIGHT) {
-                        hero->setX(hero->getX() + 10);
-                    } else {
-                        hero->setX(hero->getX() - 10);
-                    }
+                    hero->setX(
+                            hero->getCurrentMoveDir() == RIGHT
+                            ? hero->getX() + 5
+                            : hero->getX() - 5
+                    );
                 }
             }
         }
@@ -137,9 +139,21 @@ void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vecto
         entity->draw(window);
     }
 
-    if (hero->getRect().intersects(endBlock.rect)) {
-        cout << "Level passed!!!" << "Congrats!" << endl;
-        exit(0);
+    if (hero->isHasKey()) {
+        Font f;
+        f.loadFromFile("AGENCYB.TTF");
+        Text text("Key: +", f, 24);
+        text.setPosition(30, 50);
+        window.draw(text);
+
+        if (hero->getRect().intersects(endBlock.rect)) {
+            cout << "Level passed!!!" << "Congrats!" << endl;
+            exit(0);
+        }
+    }
+
+    if (hero->getRect().intersects(key.rect)) {
+        hero->setHasKey(true);
     }
 }
 

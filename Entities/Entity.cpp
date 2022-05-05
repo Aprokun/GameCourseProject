@@ -4,8 +4,6 @@
 
 #include "Entity.h"
 
-#include <utility>
-
 Entity::Entity(AnimationManager &a, int x, int y) {
     animationManager = a;
     this->x = x;

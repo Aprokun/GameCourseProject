@@ -20,11 +20,11 @@ public:
 
     static void handleEntityInteraction(
             RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time,
-            const Object &endBlock);
+            const Object &endBlock, const Object &key);
 
     static void
-    initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level, EntityFactory &factory,
-                vector<Entity *> &entities);
+    initEnemies(vector<Entity *> &entities, AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM,
+                Level &level, EntityFactory &factory);
 
     static void updateTime(Clock &clock, float &time);
 };
