@@ -9,12 +9,20 @@ SubjectFactory::SubjectFactory(Level &currentLevel) {
 }
 
 Subject *SubjectFactory::getSubject(SubjectFactory::SubjectType type, AnimationManager &a, int x, int y) {
+
     if (type == SubjectType::COIN) {
+
         return new Coin(a, x, y);
+
     } else if (type == SubjectType::KEY) {
+
         return new Key(a, x, y);
+
     } else if (type == SubjectType::PADLOCK) {
+
         return new Padlock(a, x, y);
+
     }
+
     return nullptr;
 }

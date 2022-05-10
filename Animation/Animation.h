@@ -15,9 +15,13 @@ using namespace std;
 class Animation {
 private:
     vector<IntRect> frames, flipFrames;
+
     float currentFrame, speed;
-    bool isFlip, isPlaying;
+
+    bool isFlip;
+
     Sprite sprite;
+
 public:
     Animation();
 
@@ -45,8 +49,6 @@ public:
     vector<IntRect> &getFrames();
 
     vector<IntRect> &getFlipFrames();
-
-    void setIsPlaying(bool isPlaying);
 
     ~Animation();
 };

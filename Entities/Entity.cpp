@@ -41,20 +41,12 @@ void Entity::option(const string &name, float speed, int health, const string &i
     this->health = health;
 }
 
-float Entity::getX() const {
-    return x;
-}
-
 int Entity::getHealth() const {
     return health;
 }
 
 float Entity::getDy() const {
     return dy;
-}
-
-void Entity::setX(float x) {
-    Entity::x = x;
 }
 
 void Entity::setDx(float dx) {

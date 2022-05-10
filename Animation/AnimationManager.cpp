@@ -11,7 +11,9 @@ void AnimationManager::setCurrentAnimation(const string &currentAnimation) {
 }
 
 void AnimationManager::draw(RenderWindow &window, int x, int y) {
+
     nameAnimation[currentAnimation].getSprite().setPosition(x, y);
+
     window.draw(nameAnimation[currentAnimation].getSprite());
 }
 
@@ -32,18 +34,23 @@ float AnimationManager::getCurrentAnimationWidth() {
 }
 
 void AnimationManager::loadFromXml(const string &fileName, Texture &t) {
+
     XMLDocument animFile;
     animFile.LoadFile(fileName.c_str());
 
     XMLElement *head = animFile.FirstChildElement("sprites");
 
     XMLElement *animElement = head->FirstChildElement("animation");
-
     while (animElement) {
+
         Animation animation;
+
         currentAnimation = animElement->Attribute("title");
+
         int delay = atoi(animElement->Attribute("delay"));
+
         animation.setSpeed(1.0 / delay);
+
         animation.getSprite().setTexture(t);
 
         XMLElement *cut = animElement->FirstChildElement("cut");

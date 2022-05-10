@@ -43,10 +43,6 @@ public:
 
     void draw(RenderWindow &window);
 
-    [[nodiscard]] float getX() const;
-
-    void setX(float x);
-
     void setDx(float dx);
 
     void setDy(float dy);

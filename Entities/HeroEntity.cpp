@@ -81,41 +81,63 @@ void HeroEntity::handleKey() {
 
 void HeroEntity::collision(int num) {
     for (auto &object: objects)
+
         if (getRect().intersects(object.rect)) {
+
             if (object.name == "solid") {
+
                 if (dy > 0 && num == 1) {
+
                     y = object.rect.top - h;
                     dy = 0;
                     currentState = STAY;
                 }
+
                 if (dy < 0 && num == 1) {
                     y = object.rect.top + object.rect.height;
                     dy = 0;
                 }
-                if (dx > 0 && num == 0) { x = object.rect.left - w; }
-                if (dx < 0 && num == 0) { x = object.rect.left + object.rect.width; }
+
+                if (dx > 0 && num == 0) {
+                    x = object.rect.left - w;
+                }
+
+                if (dx < 0 && num == 0) {
+                    x = object.rect.left + object.rect.width;
+                }
             }
 
             if (object.name == "SlopeLeft") {
+
                 FloatRect r = object.rect;
+
                 int y0 = (x + w / 2 - r.left) * r.height / r.width + r.top - h;
-                if (y > y0)
+
+                if (y > y0) {
                     if (x + w / 2 > r.left) {
+
                         y = y0;
                         dy = 0;
                         currentState = STAY;
                     }
+                }
             }
 
             if (object.name == "SlopeRight") {
+
                 FloatRect r = object.rect;
+
                 int y0 = -(x + w / 2 - r.left) * r.height / r.width + r.top + r.height - h;
-                if (y > y0)
+
+                if (y > y0) {
+
                     if (x + w / 2 < r.left + r.width) {
+
                         y = y0;
                         dy = 0;
                         currentState = STAY;
                     }
+                }
             }
 
         }
