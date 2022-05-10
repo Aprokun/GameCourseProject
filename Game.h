@@ -6,8 +6,8 @@
 #define SFMLTRAIN_GAME_H
 
 #include <SFML/Graphics.hpp>
-#include "EntityFactory.h"
-#include "SubjectFactory.h"
+#include "Factories/EntityFactory.h"
+#include "Factories/SubjectFactory.h"
 
 using namespace sf;
 using namespace std;

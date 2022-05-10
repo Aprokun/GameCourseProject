@@ -6,7 +6,7 @@
 #define SFMLTRAIN_COIN_H
 
 #include "Subject.h"
-#include "../Level.h"
+#include "../Level/Level.h"
 
 class Coin : public Subject {
 public:

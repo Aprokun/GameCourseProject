@@ -7,10 +7,10 @@
 
 #include <exception>
 
-#include "Entities/Entity.h"
-#include "Entities/HeroEntity.h"
-#include "Entities/SmallBamboni.h"
-#include "Entities/BigBamboni.h"
+#include "../Entities/Entity.h"
+#include "../Entities/HeroEntity.h"
+#include "../Entities/SmallBamboni.h"
+#include "../Entities/BigBamboni.h"
 
 class EntityFactory {
 private:

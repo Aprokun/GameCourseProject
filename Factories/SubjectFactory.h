@@ -5,9 +5,9 @@
 #ifndef SFMLTRAIN_SUBJECTFACTORY_H
 #define SFMLTRAIN_SUBJECTFACTORY_H
 
-#include "Subjects/Coin.h"
-#include "Subjects/Key.h"
-#include "Subjects/Padlock.h"
+#include "../Subjects/Coin.h"
+#include "../Subjects/Key.h"
+#include "../Subjects/Padlock.h"
 
 class SubjectFactory {
 private:

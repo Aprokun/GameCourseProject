@@ -14,8 +14,6 @@ public:
     void update(float time) override;
 
     string getObjName() override;
-
-    string getName() override;
 };
 
 

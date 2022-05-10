@@ -5,7 +5,7 @@
 #ifndef SFMLTRAIN_SUBJECT_H
 #define SFMLTRAIN_SUBJECT_H
 
-#include "../AnimationManager.h"
+#include "../Animation/AnimationManager.h"
 
 class Subject {
 protected:
