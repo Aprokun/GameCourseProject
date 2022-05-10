@@ -17,13 +17,7 @@ Entity::Entity(AnimationManager &a, int x, int y) {
 }
 
 void Entity::draw(RenderWindow &window) {
-    if (getObjName() == "enemy") {
-        if (getName() == "BigBamboni")
-            animationManager.draw(window, x, y + 2.6 * h);
-        else if (getName() == "SmallBamboni")
-            animationManager.draw(window, x, y + 4.2 * h);
-    } else
-        animationManager.draw(window, x, y);
+    animationManager.draw(window, x, y);
 }
 
 FloatRect Entity::getRect() {

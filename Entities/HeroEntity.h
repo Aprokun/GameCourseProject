@@ -20,6 +20,9 @@ enum Dir {
 class HeroEntity : public Entity {
 private:
     bool hit, flip, hasKey;
+
+    unsigned coins;
+
     Dir currentMoveDir;
 
     enum State {
@@ -36,11 +39,11 @@ private:
 
 public:
 
+    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+
     bool isHit() const;
 
     void setIsHit(bool isHit);
-
-    HeroEntity(AnimationManager &a, Level &level, int x, int y);
 
     bool isHasKey() const;
 
@@ -53,6 +56,10 @@ public:
     string getObjName() override;
 
     string getName() override;
+
+    unsigned int getCoins() const;
+
+    void setCoins(unsigned int coins);
 
     Dir getCurrentMoveDir() const;
 };

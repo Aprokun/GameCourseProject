@@ -36,6 +36,6 @@ add_executable(sfmltrain
         Entities/BigBamboni.h
         Level.cpp
         Level.h
-        Game.cpp Game.h)
+        Game.cpp Game.h Subjects/Subject.cpp Subjects/Subject.h Subjects/Coin.cpp Subjects/Coin.h SubjectFactory.cpp SubjectFactory.h Subjects/Key.cpp Subjects/Key.h Subjects/Padlock.cpp Subjects/Padlock.h)
 
 target_link_libraries(sfmltrain sfml-graphics sfml-audio)

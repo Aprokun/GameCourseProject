@@ -7,17 +7,18 @@
 
 #include <exception>
 
-#include "entities/Entity.h"
-#include "entities/HeroEntity.h"
-#include "entities/SmallBamboni.h"
-#include "entities/BigBamboni.h"
+#include "Entities/Entity.h"
+#include "Entities/HeroEntity.h"
+#include "Entities/SmallBamboni.h"
+#include "Entities/BigBamboni.h"
 
 class EntityFactory {
 private:
     Level currentLevel;
+
 public:
     enum EntityType {
-        HERO, BIGBAMBONI, SMALLBAMBONI
+        BIGBAMBONI, SMALLBAMBONI
     };
 
     explicit EntityFactory(Level &currentLevel);

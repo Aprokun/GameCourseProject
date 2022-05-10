@@ -10,37 +10,52 @@ void Game::start() {
     Image charactersImage;
     charactersImage.loadFromFile("EntitiesTexture/characters.png");
 
-    Texture texture;
-    texture.loadFromImage(charactersImage);
+    Image tilesImage;
+    tilesImage.loadFromFile("EntitiesTexture/tiles.png");
+
+    Texture charactersTexture;
+    charactersTexture.loadFromImage(charactersImage);
+
+    Texture tilesTexture;
+    tilesTexture.loadFromImage(tilesImage);
 
     AnimationManager heroAM;
-    heroAM.loadFromXml("Animation/Hero/anims.xml", texture);
+    heroAM.loadFromXml("Animation/Hero/anims.xml", charactersTexture);
 
     AnimationManager bigBamboniAM;
-    bigBamboniAM.loadFromXml("Animation/BigBamboni/anims.xml", texture);
+    bigBamboniAM.loadFromXml("Animation/BigBamboni/anims.xml", charactersTexture);
 
     AnimationManager smallBamboniAM;
-    smallBamboniAM.loadFromXml("Animation/SmallBamboni/anims.xml", texture);
+    smallBamboniAM.loadFromXml("Animation/SmallBamboni/anims.xml", charactersTexture);
+
+    AnimationManager coinAM;
+    coinAM.loadFromXml("Animation/Coin/anims.xml", tilesTexture);
+
+    AnimationManager padlockAM;
+    padlockAM.loadFromXml("Animation/Padlock/anims.xml", tilesTexture);
+
+    AnimationManager keyAM;
+    keyAM.loadFromXml("Animation/Key/anims.xml", tilesTexture);
 
     // Инициализация уровня
     Level level;
     level.loadFromXmlFile("Levels/level1/level.tmx");
 
-    // Инициализация фабрики
-    EntityFactory factory(level);
+    // Инициализация фабрики двигающихся сущностей
+    EntityFactory entityFactory(level);
+
+    // Инициализация фабрики предметов
+    SubjectFactory subjectFactory(level);
 
     // Инициализация главного героя
     Object heroObj = level.getObject("hero");
     auto *hero = new HeroEntity(heroAM, level, heroObj.rect.left, heroObj.rect.top);
 
+    vector<Subject *> subjects;
+    initSubjects(coinAM, padlockAM, keyAM, level, subjectFactory, subjects);
+
     vector<Entity *> entities;
-    initEnemies(entities, bigBamboniAM, smallBamboniAM, level, factory);
-
-    // Инициализация блока для активации
-    // окончания игры
-    const Object &endBlock = level.getObject("end");
-
-    const Object &key = level.getObject("key");
+    initEnemies(entities, bigBamboniAM, smallBamboniAM, level, entityFactory);
 
     Clock clock;
     float time;
@@ -61,7 +76,9 @@ void Game::start() {
 
         setPressedKeyset(hero);
 
-        handleEntityInteraction(window, hero, entities, time, endBlock, key);
+        handleEntities(window, hero, entities, time);
+
+        handleSubjects(window, hero, subjects, time);
 
         hero->update(time);
         hero->draw(window);
@@ -72,6 +89,25 @@ void Game::start() {
     cout << "Game stopped" << endl;
 
     exit(0);
+}
+
+void Game::initSubjects(AnimationManager &coinAM, AnimationManager &padlockAM, AnimationManager &keyAM, Level &level,
+                        SubjectFactory &subjectFactory, vector<Subject *> &subjects) {
+    for (const auto &subject: level.getObjects("subject")) {
+        if (subject.type == "coin") {
+            subjects.push_back(
+                    subjectFactory.getSubject(SubjectFactory::COIN, coinAM, subject.rect.left, subject.rect.top)
+            );
+        } else if (subject.type == "padlock") {
+            subjects.push_back(
+                    subjectFactory.getSubject(SubjectFactory::PADLOCK, padlockAM, subject.rect.left, subject.rect.top)
+            );
+        } else if (subject.type == "key") {
+            subjects.push_back(
+                    subjectFactory.getSubject(SubjectFactory::KEY, keyAM, subject.rect.left, subject.rect.top)
+            );
+        }
+    }
 }
 
 /* Обновление времени для отрисовки и обработки игры */
@@ -103,9 +139,31 @@ void Game::initEnemies(vector<Entity *> &entities, AnimationManager &bigBamboniA
     }
 }
 
-/* Обработка взаимодействия персонажа с различными сущностями */
-void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities,
-                                   float time, const Object &endBlock, const Object &key) {
+/* Обновление предметов */
+void Game::handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject *> &subjects, float time) {
+    for (auto &subject: subjects) {
+        if (subject->getObjName() == "coin") {
+            if (hero->getRect().intersects(subject->getRect())) {
+                hero->setCoins(hero->getCoins() + 1);
+            }
+        } else if (subject->getObjName() == "padlock") {
+            if (hero->getRect().intersects(subject->getRect()) && hero->isHasKey()) {
+                cout << "Level passed!";
+                exit(228);
+            }
+        } else if (subject->getObjName() == "key") {
+            if (hero->getRect().intersects(subject->getRect())) {
+                hero->setHasKey(true);
+            }
+        }
+
+        subject->update(time);
+        subject->draw(window);
+    }
+};
+
+/* Обновление сущностей */
+void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time) {
     for (auto &entity: entities) {
         if (entity->getObjName() == "enemy") {
 
@@ -145,15 +203,6 @@ void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vecto
         Text text("Key: +", f, 24);
         text.setPosition(30, 50);
         window.draw(text);
-
-        if (hero->getRect().intersects(endBlock.rect)) {
-            cout << "Level passed!!!" << "Congrats!" << endl;
-            exit(0);
-        }
-    }
-
-    if (hero->getRect().intersects(key.rect)) {
-        hero->setHasKey(true);
     }
 }
 

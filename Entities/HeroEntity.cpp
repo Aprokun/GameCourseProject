@@ -131,6 +131,7 @@ HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity
 
     currentState = STAY;
     hasKey = hit = flip = false;
+    coins = 0;
 
     objects = level.getAllObjects();
 }
@@ -161,4 +162,12 @@ bool HeroEntity::isHasKey() const {
 
 void HeroEntity::setHasKey(bool hasKey) {
     HeroEntity::hasKey = hasKey;
+}
+
+unsigned int HeroEntity::getCoins() const {
+    return coins;
+}
+
+void HeroEntity::setCoins(unsigned int coins) {
+    this->coins = coins;
 }
