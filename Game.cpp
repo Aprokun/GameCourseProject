@@ -4,11 +4,11 @@
 
 #include "Game.h"
 
-void Game::start() {
+int Game::start() {
 
-    RenderWindow window(VideoMode(900, 900), "SFML APP");
+    RenderWindow window(VideoMode(640, 225), "Platformer");
 
-    Camera camera(FloatRect(0, 0, 900, 900));
+    Camera camera(FloatRect(0, 0, 640, 225));
 
     Image charactersImage;
     charactersImage.loadFromFile("EntitiesTexture/characters.png");
@@ -78,8 +78,7 @@ void Game::start() {
             if (event.type == Event::Closed) window.close();
             if (event.type == Event::KeyPressed) {
                 if (Keyboard::isKeyPressed(Keyboard::R)) {
-                    window.close();
-                    reload();
+                    return RELOAD_STATUS;
                 }
             }
         }
@@ -261,7 +260,7 @@ void Game::drawCoinsAvailability(RenderWindow &window, Camera camera, const Hero
 
     Text text(to_string(hero->getCoins()), font, 24);
     Vector2<float> center = camera.getView().getCenter();
-    text.setPosition(center.x - 30, center.y + 220);
+    text.setPosition(center.x - 240, center.y - 80);
 
     window.draw(text);
 }
@@ -276,7 +275,7 @@ void Game::drawKeyAvailability(RenderWindow &window, Camera camera, const HeroEn
 
         Text text("Key: +", font, 24);
         Vector2<float> center = camera.getView().getCenter();
-        text.setPosition(center.x - 30, center.y + 190);
+        text.setPosition(center.x - 240, center.y - 110);
 
         window.draw(text);
     }
@@ -302,8 +301,4 @@ void Game::drawHeroDeadText(RenderWindow &window, Camera camera) {
     text.setPosition(center.x, center.y - 100);
 
     window.draw(text);
-}
-
-void Game::reload() {
-    start();
 }
