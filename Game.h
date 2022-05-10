@@ -34,6 +34,11 @@ public:
     static void handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject *> &subjects, float time);
 
 
+    static void drawAllInfoText(RenderWindow &window, const HeroEntity *hero);
+
+    static void drawKeyAvailability(RenderWindow &window, const HeroEntity *hero);
+
+    static void drawCoinsAvailability(RenderWindow &window, const HeroEntity *hero);
 };
 
 

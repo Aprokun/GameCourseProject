@@ -80,6 +80,8 @@ void Game::start() {
 
         handleSubjects(window, hero, subjects, time);
 
+        drawAllInfoText(window, hero);
+
         hero->update(time);
         hero->draw(window);
 
@@ -175,7 +177,9 @@ void Game::handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject
 
 /* Обновление сущностей */
 void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time) {
+
     for (auto &entity: entities) {
+
         if (entity->getObjName() == "enemy") {
 
             if (hero->getRect().intersects(entity->getRect())) {
@@ -205,17 +209,45 @@ void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity 
         entity->update(time);
         entity->draw(window);
     }
+}
+
+/* Отрисовывает весь информационный текст (кол-во хп, наличие ключа и пр.) */
+void Game::drawAllInfoText(RenderWindow &window, const HeroEntity *hero) {
+
+    drawKeyAvailability(window, hero);
+    drawCoinsAvailability(window, hero);
+}
+
+/* Отрисовка текста количества очков */
+void Game::drawCoinsAvailability(RenderWindow &window, const HeroEntity *hero) {
+
+    Font font;
+    font.loadFromFile("AGENCYB.TTF");
+
+    Text text(to_string(hero->getCoins()), font, 24);
+    text.setPosition(30, 220);
+
+    window.draw(text);
+}
+
+/* Отрисовка текста наличия ключа */
+void Game::drawKeyAvailability(RenderWindow &window, const HeroEntity *hero) {
 
     if (hero->isHasKey()) {
-        Font f;
-        f.loadFromFile("AGENCYB.TTF");
-        Text text("Key: +", f, 24);
-        text.setPosition(30, 50);
+
+        Font font;
+        font.loadFromFile("AGENCYB.TTF");
+
+        Text text("Key: +", font, 24);
+        text.setPosition(30, 190);
+
         window.draw(text);
     }
 }
 
+/* Установка нажатых клавиш для главного героя */
 void Game::setPressedKeyset(HeroEntity *hero) {
+
     if (Keyboard::isKeyPressed(Keyboard::W)) hero->setKeyValue("W", true);
     if (Keyboard::isKeyPressed(Keyboard::A)) hero->setKeyValue("A", true);
     if (Keyboard::isKeyPressed(Keyboard::S)) hero->setKeyValue("S", true);
