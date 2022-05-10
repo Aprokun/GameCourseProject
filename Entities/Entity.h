@@ -17,8 +17,9 @@ using namespace sf;
 
 class Entity {
 protected:
-
     float x{}, y{}, dx{}, dy{}, w{}, h{};
+
+    bool alive;
 
     AnimationManager animationManager;
 
@@ -43,6 +44,8 @@ public:
 
     void draw(RenderWindow &window);
 
+    [[nodiscard]] bool isAlive() const;
+
     void setDx(float dx);
 
     void setDy(float dy);
@@ -51,7 +54,7 @@ public:
 
     [[nodiscard]] float getDy() const;
 
-    FloatRect getRect();
+    FloatRect getRect() const;
 
     [[nodiscard]] int getHealth() const;
 };

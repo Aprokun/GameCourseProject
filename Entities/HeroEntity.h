@@ -19,6 +19,8 @@ private:
 
     unsigned coins;
 
+    int timer;
+
     enum State {
         STAY, WALK, JUMP
     } currentState;
@@ -39,6 +41,8 @@ public:
 
     void setIsHit(bool isHit);
 
+    void setTimer(int ms);
+
     [[nodiscard]] bool isHasKey() const;
 
     void setHasKey(bool hasKey);
@@ -52,6 +56,7 @@ public:
     [[nodiscard]] unsigned int getCoins() const;
 
     void setCoins(unsigned int coins);
+
 };
 
 

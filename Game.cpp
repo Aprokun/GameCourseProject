@@ -210,9 +210,13 @@ void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity 
 
                     entity->setHealth(entity->getHealth() - 1);
 
-                } else {
+                } else if (!hero->isHit() && entity->isAlive()) {
 
+                    hero->setTimer(3000);
+                    cout << "before " << hero->getHealth() << endl;
                     hero->setHealth(hero->getHealth() - 1);
+                    cout << "after " << hero->getHealth() << endl;
+                    hero->setIsHit(true);
                 }
             }
         }

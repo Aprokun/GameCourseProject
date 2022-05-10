@@ -6,6 +6,11 @@
 
 void HeroEntity::update(float time) {
 
+    if (hit) {
+        timer -= time;
+        if (timer <= 0) hit = false;
+    }
+
     handleKey();
 
     handleAnimation(time);
@@ -34,8 +39,11 @@ void HeroEntity::handleAnimation(float time) {
         animationManager.setCurrentAnimation("jump");
     }
 
-    if (flip) animationManager.flip(true);
-    else animationManager.flip(false);
+    if (flip) {
+        animationManager.flip(true);
+    } else {
+        animationManager.flip(false);
+    }
 
     animationManager.update(time);
 }
@@ -186,4 +194,8 @@ unsigned int HeroEntity::getCoins() const {
 
 void HeroEntity::setCoins(unsigned int coins) {
     this->coins = coins;
+}
+
+void HeroEntity::setTimer(int ms) {
+    this->timer = ms;
 }
