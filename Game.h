@@ -16,7 +16,9 @@ using namespace std;
 class Game {
 public:
 
-    static void start();
+    static const int RELOAD_STATUS = 100;
+
+    static int start();
 
     static void setPressedKeyset(HeroEntity *hero);
 

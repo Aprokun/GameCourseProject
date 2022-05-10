@@ -1,6 +1,8 @@
 #include "Game.h"
 
 int main() {
-    Game game;
-    game.start();
+    while (true) {
+        int status = Game::start();
+        if (status != Game::RELOAD_STATUS) break;
+    }
 }
