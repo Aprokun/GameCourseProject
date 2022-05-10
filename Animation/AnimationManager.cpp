@@ -59,7 +59,7 @@ void AnimationManager::loadFromXml(const string &fileName, Texture &t) {
             cut = cut->NextSiblingElement("cut");
         }
 
-        animation.getSprite().setOrigin(0, animation.getFrames()[0].top);
+        animation.getSprite().setOrigin(0, 0);
 
         nameAnimation[currentAnimation] = animation;
         animElement = animElement->NextSiblingElement("animation");

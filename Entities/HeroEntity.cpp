@@ -131,7 +131,9 @@ HeroEntity::HeroEntity(AnimationManager &a, Level &level, int x, int y) : Entity
 
     currentState = STAY;
 
-    hit = false;
+    hasKey = hit = flip = false;
+
+    coins = 0;
 
     objects = level.getAllObjects();
 }
@@ -148,10 +150,18 @@ void HeroEntity::setIsHit(bool isHit) {
     hit = isHit;
 }
 
-Dir HeroEntity::getCurrentMoveDir() const {
-    return currentMoveDir;
+bool HeroEntity::isHasKey() const {
+    return hasKey;
 }
 
-string HeroEntity::getName() {
-    return "Hero";
+void HeroEntity::setHasKey(bool hasKey) {
+    HeroEntity::hasKey = hasKey;
+}
+
+unsigned int HeroEntity::getCoins() const {
+    return coins;
+}
+
+void HeroEntity::setCoins(unsigned int coins) {
+    this->coins = coins;
 }

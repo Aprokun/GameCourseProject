@@ -5,6 +5,7 @@
 #include "SmallBamboni.h"
 
 void SmallBamboni::update(float time) {
+
     x += dx * time;
     timer += time;
 
@@ -14,10 +15,12 @@ void SmallBamboni::update(float time) {
     }
 
     if (health <= 0) {
+
         animationManager.setCurrentAnimation("dead");
+
         dx = 0;
+
         timerEnd += time;
-        if (timerEnd > 4000) live = false;
     }
 
     animationManager.update(time);
@@ -29,8 +32,4 @@ SmallBamboni::SmallBamboni(AnimationManager &a, Level &level, int x, int y) : En
 
 string SmallBamboni::getObjName() {
     return "enemy";
-}
-
-string SmallBamboni::getName() {
-    return name;
 }

@@ -6,7 +6,8 @@
 #define SFMLTRAIN_GAME_H
 
 #include <SFML/Graphics.hpp>
-#include "EntityFactory.h"
+#include "Factories/EntityFactory.h"
+#include "Factories/SubjectFactory.h"
 
 using namespace sf;
 using namespace std;
@@ -18,15 +19,26 @@ public:
 
     static void setPressedKeyset(HeroEntity *hero);
 
-    static void handleEntityInteraction(
-            RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time,
-            const Object &endBlock);
+    static void handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time);
 
     static void
-    initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level, EntityFactory &factory,
-                vector<Entity *> &entities);
+    initEnemies(vector<Entity *> &entities, AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM,
+                Level &level, EntityFactory &factory);
 
     static void updateTime(Clock &clock, float &time);
+
+    static void
+    initSubjects(AnimationManager &coinAM, AnimationManager &padlockAM, AnimationManager &keyAM, Level &level,
+                 SubjectFactory &subjectFactory, vector<Subject *> &subjects);
+
+    static void handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject *> &subjects, float time);
+
+
+    static void drawAllInfoText(RenderWindow &window, const HeroEntity *hero);
+
+    static void drawKeyAvailability(RenderWindow &window, const HeroEntity *hero);
+
+    static void drawCoinsAvailability(RenderWindow &window, const HeroEntity *hero);
 };
 
 

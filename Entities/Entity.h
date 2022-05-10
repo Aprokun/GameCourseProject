@@ -8,8 +8,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
-#include "../Level.h"
-#include "../AnimationManager.h"
+#include "../Level/Level.h"
+#include "../Animation/AnimationManager.h"
 #include "../Camera.h"
 
 using namespace std;
@@ -26,8 +26,6 @@ protected:
 
     string name;
 
-    bool live{}, dir{};
-
     float timer{}, timerEnd{};
 
     int health{};
@@ -35,9 +33,7 @@ protected:
     void option(const string &name, float speed = 0, int health = 10, const string &initAnimationName = "");
 
 public:
-    Entity() {}
-
-    bool isLive() const;
+    Entity() = default;
 
     Entity(AnimationManager &a, int x, int y);
 
@@ -45,37 +41,23 @@ public:
 
     virtual string getObjName() = 0;
 
-    virtual string getName() = 0;
-
     void draw(RenderWindow &window);
 
-    void setKeyValue(const string &key, bool value);
-
-    float getX() const;
-
-    float getY() const;
+    [[nodiscard]] float getX() const;
 
     void setX(float x);
-
-    void setY(float y);
 
     void setDx(float dx);
 
     void setDy(float dy);
 
-    void setDir(bool dir);
-
     void setHealth(int health);
 
-    float getDx() const;
-
-    float getDy() const;
-
-    bool isDir() const;
+    [[nodiscard]] float getDy() const;
 
     FloatRect getRect();
 
-    int getHealth() const;
+    [[nodiscard]] int getHealth() const;
 };
 
 

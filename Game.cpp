@@ -10,41 +10,61 @@ void Game::start() {
     Image charactersImage;
     charactersImage.loadFromFile("EntitiesTexture/characters.png");
 
-    Texture texture;
-    texture.loadFromImage(charactersImage);
+    Image tilesImage;
+    tilesImage.loadFromFile("EntitiesTexture/tiles.png");
+
+    Texture charactersTexture;
+    charactersTexture.loadFromImage(charactersImage);
+
+    Texture tilesTexture;
+    tilesTexture.loadFromImage(tilesImage);
 
     AnimationManager heroAM;
-    heroAM.loadFromXml("Animation/Hero/anims.xml", texture);
+    heroAM.loadFromXml("Animation/Hero/anims.xml", charactersTexture);
 
     AnimationManager bigBamboniAM;
-    bigBamboniAM.loadFromXml("Animation/BigBamboni/anims.xml", texture);
+    bigBamboniAM.loadFromXml("Animation/BigBamboni/anims.xml", charactersTexture);
 
     AnimationManager smallBamboniAM;
-    smallBamboniAM.loadFromXml("Animation/SmallBamboni/anims.xml", texture);
+    smallBamboniAM.loadFromXml("Animation/SmallBamboni/anims.xml", charactersTexture);
+
+    AnimationManager coinAM;
+    coinAM.loadFromXml("Animation/Coin/anims.xml", tilesTexture);
+
+    AnimationManager padlockAM;
+    padlockAM.loadFromXml("Animation/Padlock/anims.xml", tilesTexture);
+
+    AnimationManager keyAM;
+    keyAM.loadFromXml("Animation/Key/anims.xml", tilesTexture);
 
     // Инициализация уровня
     Level level;
     level.loadFromXmlFile("Levels/level1/level.tmx");
 
-    // Инициализация фабрики
-    EntityFactory factory(level);
+    // Инициализация фабрики двигающихся сущностей
+    EntityFactory entityFactory(level);
+
+    // Инициализация фабрики предметов
+    SubjectFactory subjectFactory(level);
 
     // Инициализация главного героя
     Object heroObj = level.getObject("hero");
     auto *hero = new HeroEntity(heroAM, level, heroObj.rect.left, heroObj.rect.top);
 
-    vector<Entity *> entities;
-    initEnemies(bigBamboniAM, smallBamboniAM, level, factory, entities);
+    // Инициализация предметов
+    vector<Subject *> subjects;
+    initSubjects(coinAM, padlockAM, keyAM, level, subjectFactory, subjects);
 
-    // Инициализация блока для активации
-    // окончания игры
-    const Object &endBlock = level.getObject("end");
+    // Инициализация сущностей
+    vector<Entity *> entities;
+    initEnemies(entities, bigBamboniAM, smallBamboniAM, level, entityFactory);
 
     Clock clock;
     float time;
 
     cout << "Game ran" << endl;
     while (window.isOpen()) {
+
         window.clear();
 
         updateTime(clock, time);
@@ -59,7 +79,11 @@ void Game::start() {
 
         setPressedKeyset(hero);
 
-        handleEntityInteraction(window, hero, entities, time, endBlock);
+        handleEntities(window, hero, entities, time);
+
+        handleSubjects(window, hero, subjects, time);
+
+        drawAllInfoText(window, hero);
 
         hero->update(time);
         hero->draw(window);
@@ -72,26 +96,61 @@ void Game::start() {
     exit(0);
 }
 
+void Game::initSubjects(AnimationManager &coinAM, AnimationManager &padlockAM, AnimationManager &keyAM, Level &level,
+                        SubjectFactory &subjectFactory, vector<Subject *> &subjects) {
+
+    for (const auto &subject: level.getObjects("subject")) {
+
+        if (subject.type == "coin") {
+
+            subjects.push_back(
+                    subjectFactory.getSubject(SubjectFactory::COIN, coinAM, subject.rect.left, subject.rect.top)
+            );
+
+        } else if (subject.type == "padlock") {
+
+            subjects.push_back(
+                    subjectFactory.getSubject(SubjectFactory::PADLOCK, padlockAM, subject.rect.left, subject.rect.top)
+            );
+
+        } else if (subject.type == "key") {
+
+            subjects.push_back(
+                    subjectFactory.getSubject(SubjectFactory::KEY, keyAM, subject.rect.left, subject.rect.top)
+            );
+        }
+    }
+}
+
 /* Обновление времени для отрисовки и обработки игры */
 void Game::updateTime(Clock &clock, float &time) {
+
     time = clock.getElapsedTime().asMicroseconds();
+
     clock.restart();
+
     time /= 650;
+
     if (time > 60) time = 60;
 }
 
 /* Инициализация противников через фабрику,
  * считывая их изначальное расположение на карте */
-void Game::initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM, Level &level,
-                       EntityFactory &factory, vector<Entity *> &entities) {
+void Game::initEnemies(vector<Entity *> &entities, AnimationManager &bigBamboniAM, AnimationManager &smallBamboniAM,
+                       Level &level, EntityFactory &factory) {
+
     for (const auto &enemy: level.getObjects("enemy")) {
+
         if (enemy.type == "big_bamboni") {
+
             entities.push_back(
                     factory.getEntity(
                             EntityFactory::BIGBAMBONI, bigBamboniAM, enemy.rect.left, enemy.rect.top
                     )
             );
+
         } else if (enemy.type == "small_bamboni") {
+
             entities.push_back(
                     factory.getEntity(
                             EntityFactory::SMALLBAMBONI, smallBamboniAM, enemy.rect.left, enemy.rect.top
@@ -101,13 +160,46 @@ void Game::initEnemies(AnimationManager &bigBamboniAM, AnimationManager &smallBa
     }
 }
 
-/* Обработка взаимодействия персонажа с различными сущностями */
-void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities,
-                                   float time, const Object &endBlock) {
-    for (auto &entity: entities) {
-        if (entity->getObjName() == "enemy") {
+/* Обновление предметов */
+void Game::handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject *> &subjects, float time) {
 
-            if (entity->getHealth() <= 0) continue;
+    for (auto i = subjects.cbegin(); i < subjects.cend(); i++) {
+
+        auto &subject = *i;
+
+        if (subject->getObjName() == "coin") {
+
+            if (hero->getRect().intersects(subject->getRect())) {
+                hero->setCoins(hero->getCoins() + 1);
+                subjects.erase(i);
+            }
+
+        } else if (subject->getObjName() == "padlock") {
+
+            if (hero->getRect().intersects(subject->getRect()) && hero->isHasKey()) {
+                cout << "Level passed!";
+                exit(228);
+            }
+
+        } else if (subject->getObjName() == "key") {
+
+            if (hero->getRect().intersects(subject->getRect())) {
+                hero->setHasKey(true);
+                subjects.erase(i);
+            }
+        }
+
+        subject->update(time);
+        subject->draw(window);
+    }
+};
+
+/* Обновление сущностей */
+void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time) {
+
+    for (auto &entity: entities) {
+
+        if (entity->getObjName() == "enemy") {
 
             if (hero->getRect().intersects(entity->getRect())) {
 
@@ -116,19 +208,11 @@ void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vecto
                     entity->setDx(0.0);
                     hero->setDy(-0.2);
 
-                    entity->setHealth(0);
+                    entity->setHealth(entity->getHealth() - 1);
 
-                } else if (!hero->isHit()) {
+                } else {
 
-                    hero->setHealth(hero->getHealth() - 5);
-
-                    hero->setIsHit(true);
-
-                    if (hero->getCurrentMoveDir() == RIGHT) {
-                        hero->setX(hero->getX() + 10);
-                    } else {
-                        hero->setX(hero->getX() - 10);
-                    }
+                    hero->setHealth(hero->getHealth() - 1);
                 }
             }
         }
@@ -136,14 +220,46 @@ void Game::handleEntityInteraction(RenderWindow &window, HeroEntity *hero, vecto
         entity->update(time);
         entity->draw(window);
     }
+}
 
-    if (hero->getRect().intersects(endBlock.rect)) {
-        cout << "Level passed!!!" << "Congrats!" << endl;
-        exit(0);
+/* Отрисовывает весь информационный текст (кол-во хп, наличие ключа и пр.) */
+void Game::drawAllInfoText(RenderWindow &window, const HeroEntity *hero) {
+
+    drawKeyAvailability(window, hero);
+
+    drawCoinsAvailability(window, hero);
+}
+
+/* Отрисовка текста количества очков */
+void Game::drawCoinsAvailability(RenderWindow &window, const HeroEntity *hero) {
+
+    Font font;
+    font.loadFromFile("AGENCYB.TTF");
+
+    Text text(to_string(hero->getCoins()), font, 24);
+    text.setPosition(30, 220);
+
+    window.draw(text);
+}
+
+/* Отрисовка текста наличия ключа */
+void Game::drawKeyAvailability(RenderWindow &window, const HeroEntity *hero) {
+
+    if (hero->isHasKey()) {
+
+        Font font;
+        font.loadFromFile("AGENCYB.TTF");
+
+        Text text("Key: +", font, 24);
+        text.setPosition(30, 190);
+
+        window.draw(text);
     }
 }
 
+/* Установка нажатых клавиш для главного героя */
 void Game::setPressedKeyset(HeroEntity *hero) {
+
     if (Keyboard::isKeyPressed(Keyboard::W)) hero->setKeyValue("W", true);
     if (Keyboard::isKeyPressed(Keyboard::A)) hero->setKeyValue("A", true);
     if (Keyboard::isKeyPressed(Keyboard::S)) hero->setKeyValue("S", true);

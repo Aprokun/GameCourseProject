@@ -13,14 +13,11 @@
 using namespace sf;
 using namespace std;
 
-enum Dir {
-    UP, RIGHT, DOWN, LEFT, NONE
-};
-
 class HeroEntity : public Entity {
 private:
-    bool hit, flip{};
-    Dir currentMoveDir;
+    bool hit, flip, hasKey;
+
+    unsigned coins;
 
     enum State {
         STAY, WALK, JUMP
@@ -36,11 +33,15 @@ private:
 
 public:
 
-    bool isHit() const;
+    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+
+    [[nodiscard]] bool isHit() const;
 
     void setIsHit(bool isHit);
 
-    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+    [[nodiscard]] bool isHasKey() const;
+
+    void setHasKey(bool hasKey);
 
     void update(float time) override;
 
@@ -48,9 +49,9 @@ public:
 
     string getObjName() override;
 
-    string getName() override;
+    [[nodiscard]] unsigned int getCoins() const;
 
-    Dir getCurrentMoveDir() const;
+    void setCoins(unsigned int coins);
 };
 
 

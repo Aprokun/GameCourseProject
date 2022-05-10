@@ -25,23 +25,23 @@ Animation::Animation(
 /* Обновляет анимацию в зависимости от времени.
    time - время */
 void Animation::update(float time) {
-    // если анимация не играет, то выходим
+    // Если анимация не играет, то выходим
     if (!isPlaying) return;
 
-    // вычисляем текущий кадр
+    // Вычисляем текущий кадр
     currentFrame += speed * time;
 
     unsigned long long int framesSize = frames.size();
 
-    // если номер текущего фрагмента анимации
+    // Если номер текущего фрагмента анимации
     // превышает общее количество фрагментов,
     // то обнуляем номер текущего фрагмента
     if (currentFrame > framesSize) currentFrame -= framesSize;
 
-    // текущий фрагмент анимации
+    // Текущий фрагмент анимации
     unsigned currentFrameNumber = currentFrame;
 
-    //устанавливаем текущий фрагмент анимации
+    // Устанавливаем текущий фрагмент анимации
     if (!isFlip) sprite.setTextureRect(frames[currentFrameNumber]);
     else sprite.setTextureRect(flipFrames[currentFrameNumber]);
 }

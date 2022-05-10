@@ -10,7 +10,7 @@
 #include <map>
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "TinyXML2/tinyxml2.h"
+#include "../TinyXML2/tinyxml2.h"
 
 using namespace std;
 using namespace sf;
