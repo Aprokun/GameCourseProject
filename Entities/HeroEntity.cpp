@@ -6,23 +6,25 @@
 
 void HeroEntity::update(float time) {
 
-    if (hit) {
-        timer -= time;
-        if (timer <= 0) hit = false;
+    if (health > 0) {
+        if (hit) {
+            timer -= time;
+            if (timer <= 0) hit = false;
+        }
+
+        handleKey();
+
+        handleAnimation(time);
+
+        x += dx * time;
+        collision(0);
+
+        dy += 0.0005f * time;
+        y += dy * time;
+        collision(1);
+
+        animationManager.update(time);
     }
-
-    handleKey();
-
-    handleAnimation(time);
-
-    x += dx * time;
-    collision(0);
-
-    dy += 0.0005f * time;
-    y += dy * time;
-    collision(1);
-
-    animationManager.update(time);
 }
 
 void HeroEntity::handleAnimation(float time) {

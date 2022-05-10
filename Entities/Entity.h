@@ -50,11 +50,15 @@ public:
 
     void setDy(float dy);
 
+    [[nodiscard]] float getX() const;
+
+    [[nodiscard]] float getY() const;
+
     void setHealth(int health);
 
     [[nodiscard]] float getDy() const;
 
-    FloatRect getRect() const;
+    [[nodiscard]] FloatRect getRect() const;
 
     [[nodiscard]] int getHealth() const;
 };

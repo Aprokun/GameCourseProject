@@ -65,3 +65,11 @@ void Entity::setHealth(int health) {
 bool Entity::isAlive() const {
     return alive;
 }
+
+float Entity::getX() const {
+    return x;
+}
+
+float Entity::getY() const {
+    return y;
+}

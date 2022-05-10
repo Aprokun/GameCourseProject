@@ -5,7 +5,10 @@
 #include "Game.h"
 
 void Game::start() {
+
     RenderWindow window(VideoMode(900, 900), "SFML APP");
+
+    Camera camera(FloatRect(0, 0, 900, 900));
 
     Image charactersImage;
     charactersImage.loadFromFile("EntitiesTexture/characters.png");
@@ -63,6 +66,7 @@ void Game::start() {
     float time;
 
     cout << "Game ran" << endl;
+
     while (window.isOpen()) {
 
         window.clear();
@@ -72,6 +76,12 @@ void Game::start() {
         Event event{};
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) window.close();
+            if (event.type == Event::KeyPressed) {
+                if (Keyboard::isKeyPressed(Keyboard::R)) {
+                    window.close();
+                    reload();
+                }
+            }
         }
 
         // Не трогать эту строку
@@ -83,10 +93,12 @@ void Game::start() {
 
         handleSubjects(window, hero, subjects, time);
 
-        drawAllInfoText(window, hero);
+        camera.setCenter(hero->getX(), hero->getY());
+        window.setView(camera.getView());
 
-        hero->update(time);
-        hero->draw(window);
+        drawAllInfoText(window, camera, hero);
+
+        handleHero(window, camera, hero, time);
 
         window.display();
     }
@@ -94,6 +106,11 @@ void Game::start() {
     cout << "Game stopped" << endl;
 
     exit(0);
+}
+
+void Game::handleHero(RenderWindow &window, Camera camera, HeroEntity *hero, float time) {
+    hero->update(time);
+    hero->draw(window);
 }
 
 void Game::initSubjects(AnimationManager &coinAM, AnimationManager &padlockAM, AnimationManager &keyAM, Level &level,
@@ -227,27 +244,30 @@ void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity 
 }
 
 /* Отрисовывает весь информационный текст (кол-во хп, наличие ключа и пр.) */
-void Game::drawAllInfoText(RenderWindow &window, const HeroEntity *hero) {
+void Game::drawAllInfoText(RenderWindow &window, Camera camera, const HeroEntity *hero) {
 
-    drawKeyAvailability(window, hero);
+    if (hero->getHealth() <= 0) drawHeroDeadText(window, camera);
 
-    drawCoinsAvailability(window, hero);
+    drawKeyAvailability(window, camera, hero);
+
+    drawCoinsAvailability(window, camera, hero);
 }
 
 /* Отрисовка текста количества очков */
-void Game::drawCoinsAvailability(RenderWindow &window, const HeroEntity *hero) {
+void Game::drawCoinsAvailability(RenderWindow &window, Camera camera, const HeroEntity *hero) {
 
     Font font;
     font.loadFromFile("AGENCYB.TTF");
 
     Text text(to_string(hero->getCoins()), font, 24);
-    text.setPosition(30, 220);
+    Vector2<float> center = camera.getView().getCenter();
+    text.setPosition(center.x - 30, center.y + 220);
 
     window.draw(text);
 }
 
 /* Отрисовка текста наличия ключа */
-void Game::drawKeyAvailability(RenderWindow &window, const HeroEntity *hero) {
+void Game::drawKeyAvailability(RenderWindow &window, Camera camera, const HeroEntity *hero) {
 
     if (hero->isHasKey()) {
 
@@ -255,7 +275,8 @@ void Game::drawKeyAvailability(RenderWindow &window, const HeroEntity *hero) {
         font.loadFromFile("AGENCYB.TTF");
 
         Text text("Key: +", font, 24);
-        text.setPosition(30, 190);
+        Vector2<float> center = camera.getView().getCenter();
+        text.setPosition(center.x - 30, center.y + 190);
 
         window.draw(text);
     }
@@ -268,4 +289,21 @@ void Game::setPressedKeyset(HeroEntity *hero) {
     if (Keyboard::isKeyPressed(Keyboard::A)) hero->setKeyValue("A", true);
     if (Keyboard::isKeyPressed(Keyboard::S)) hero->setKeyValue("S", true);
     if (Keyboard::isKeyPressed(Keyboard::D)) hero->setKeyValue("D", true);
+}
+
+void Game::drawHeroDeadText(RenderWindow &window, Camera camera) {
+
+    Font font;
+    font.loadFromFile("AGENCYB.TTF");
+
+    Text text("YOU DEAD", font, 50);
+    text.setFillColor(Color::Red);
+    Vector2f center = camera.getView().getCenter();
+    text.setPosition(center.x, center.y - 100);
+
+    window.draw(text);
+}
+
+void Game::reload() {
+    start();
 }

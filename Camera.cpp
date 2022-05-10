@@ -4,15 +4,14 @@
 
 #include "Camera.h"
 
-View Camera::getPlayerCoordinateForView(float x, float y) {
-    view.setCenter(x, y);
-    return view;
-}
-
 const View &Camera::getView() const {
     return view;
 }
 
-void Camera::reset(FloatRect fr) {
-    view.reset(fr);
+Camera::Camera(FloatRect rect) {
+    view = View(rect);
+}
+
+void Camera::setCenter(float x, float y) {
+    view.setCenter(x, y);
 }
