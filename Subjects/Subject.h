@@ -20,7 +20,7 @@ public:
 
     virtual void update(float time) = 0;
 
-    FloatRect getRect() const;
+    [[nodiscard]] FloatRect getRect() const;
 
     void draw(RenderWindow &window);
 };

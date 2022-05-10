@@ -141,19 +141,30 @@ void Game::initEnemies(vector<Entity *> &entities, AnimationManager &bigBamboniA
 
 /* Обновление предметов */
 void Game::handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject *> &subjects, float time) {
-    for (auto &subject: subjects) {
+
+    for (auto i = subjects.cbegin(); i < subjects.cend(); i++) {
+
+        auto &subject = *i;
+
         if (subject->getObjName() == "coin") {
+
             if (hero->getRect().intersects(subject->getRect())) {
                 hero->setCoins(hero->getCoins() + 1);
+                subjects.erase(i);
             }
+
         } else if (subject->getObjName() == "padlock") {
+
             if (hero->getRect().intersects(subject->getRect()) && hero->isHasKey()) {
                 cout << "Level passed!";
                 exit(228);
             }
+
         } else if (subject->getObjName() == "key") {
+
             if (hero->getRect().intersects(subject->getRect())) {
                 hero->setHasKey(true);
+                subjects.erase(i);
             }
         }
 
@@ -166,8 +177,6 @@ void Game::handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject
 void Game::handleEntities(RenderWindow &window, HeroEntity *hero, vector<Entity *> &entities, float time) {
     for (auto &entity: entities) {
         if (entity->getObjName() == "enemy") {
-
-            if (entity->getHealth() <= 0) continue;
 
             if (hero->getRect().intersects(entity->getRect())) {
 

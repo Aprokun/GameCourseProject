@@ -9,7 +9,6 @@ Padlock::Padlock(AnimationManager &a, float x, float y) : Subject(a, x, y) {
 }
 
 void Padlock::update(float time) {
-
     animationManager.update(time);
 }
 
