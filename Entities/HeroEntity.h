@@ -15,9 +15,19 @@ using namespace std;
 
 class HeroEntity : public Entity {
 private:
+    HeroEntity() = default;
+
+    HeroEntity(const HeroEntity &);
+
+    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+
+    HeroEntity &operator=(HeroEntity &);
+
     bool hit, flip, hasKey;
 
     unsigned coins;
+
+    int timer;
 
     enum State {
         STAY, WALK, JUMP
@@ -33,11 +43,13 @@ private:
 
 public:
 
-    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+    static HeroEntity *getInstance(AnimationManager &a, Level &level, int x, int y);
 
     [[nodiscard]] bool isHit() const;
 
     void setIsHit(bool isHit);
+
+    void setTimer(int ms);
 
     [[nodiscard]] bool isHasKey() const;
 
@@ -52,6 +64,7 @@ public:
     [[nodiscard]] unsigned int getCoins() const;
 
     void setCoins(unsigned int coins);
+
 };
 
 

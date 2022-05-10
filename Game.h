@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include "Factories/EntityFactory.h"
 #include "Factories/SubjectFactory.h"
+#include "Camera.h"
 
 using namespace sf;
 using namespace std;
@@ -15,7 +16,9 @@ using namespace std;
 class Game {
 public:
 
-    static void start();
+    static const int RELOAD_STATUS = 100;
+
+    static int start();
 
     static void setPressedKeyset(HeroEntity *hero);
 
@@ -34,11 +37,15 @@ public:
     static void handleSubjects(RenderWindow &window, HeroEntity *hero, vector<Subject *> &subjects, float time);
 
 
-    static void drawAllInfoText(RenderWindow &window, const HeroEntity *hero);
+    static void drawAllInfoText(RenderWindow &window, Camera camera, const HeroEntity *hero);
 
-    static void drawKeyAvailability(RenderWindow &window, const HeroEntity *hero);
+    static void drawKeyAvailability(RenderWindow &window, Camera camera, const HeroEntity *hero);
 
-    static void drawCoinsAvailability(RenderWindow &window, const HeroEntity *hero);
+    static void drawHeroDeadText(RenderWindow &window, Camera camera);
+
+    static void drawCoinsAvailability(RenderWindow &window, Camera camera, const HeroEntity *hero);
+
+    static void handleHero(RenderWindow &window, HeroEntity *hero, float time);
 };
 
 

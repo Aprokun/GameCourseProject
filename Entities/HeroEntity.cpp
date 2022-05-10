@@ -6,18 +6,25 @@
 
 void HeroEntity::update(float time) {
 
-    handleKey();
+    if (health > 0) {
+        if (hit) {
+            timer -= time;
+            if (timer <= 0) hit = false;
+        }
 
-    handleAnimation(time);
+        handleKey();
 
-    x += dx * time;
-    collision(0);
+        handleAnimation(time);
 
-    dy += 0.0005f * time;
-    y += dy * time;
-    collision(1);
+        x += dx * time;
+        collision(0);
 
-    animationManager.update(time);
+        dy += 0.0005f * time;
+        y += dy * time;
+        collision(1);
+
+        animationManager.update(time);
+    }
 }
 
 void HeroEntity::handleAnimation(float time) {
@@ -34,8 +41,11 @@ void HeroEntity::handleAnimation(float time) {
         animationManager.setCurrentAnimation("jump");
     }
 
-    if (flip) animationManager.flip(true);
-    else animationManager.flip(false);
+    if (flip) {
+        animationManager.flip(true);
+    } else {
+        animationManager.flip(false);
+    }
 
     animationManager.update(time);
 }
@@ -81,41 +91,63 @@ void HeroEntity::handleKey() {
 
 void HeroEntity::collision(int num) {
     for (auto &object: objects)
+
         if (getRect().intersects(object.rect)) {
+
             if (object.name == "solid") {
+
                 if (dy > 0 && num == 1) {
+
                     y = object.rect.top - h;
                     dy = 0;
                     currentState = STAY;
                 }
+
                 if (dy < 0 && num == 1) {
                     y = object.rect.top + object.rect.height;
                     dy = 0;
                 }
-                if (dx > 0 && num == 0) { x = object.rect.left - w; }
-                if (dx < 0 && num == 0) { x = object.rect.left + object.rect.width; }
+
+                if (dx > 0 && num == 0) {
+                    x = object.rect.left - w;
+                }
+
+                if (dx < 0 && num == 0) {
+                    x = object.rect.left + object.rect.width;
+                }
             }
 
             if (object.name == "SlopeLeft") {
+
                 FloatRect r = object.rect;
+
                 int y0 = (x + w / 2 - r.left) * r.height / r.width + r.top - h;
-                if (y > y0)
+
+                if (y > y0) {
                     if (x + w / 2 > r.left) {
+
                         y = y0;
                         dy = 0;
                         currentState = STAY;
                     }
+                }
             }
 
             if (object.name == "SlopeRight") {
+
                 FloatRect r = object.rect;
+
                 int y0 = -(x + w / 2 - r.left) * r.height / r.width + r.top + r.height - h;
-                if (y > y0)
+
+                if (y > y0) {
+
                     if (x + w / 2 < r.left + r.width) {
+
                         y = y0;
                         dy = 0;
                         currentState = STAY;
                     }
+                }
             }
 
         }
@@ -164,4 +196,13 @@ unsigned int HeroEntity::getCoins() const {
 
 void HeroEntity::setCoins(unsigned int coins) {
     this->coins = coins;
+}
+
+void HeroEntity::setTimer(int ms) {
+    this->timer = ms;
+}
+
+HeroEntity *HeroEntity::getInstance(AnimationManager &a, Level &level, int x, int y) {
+    static auto *instance = new HeroEntity(a, level, x, y);
+    return instance;
 }

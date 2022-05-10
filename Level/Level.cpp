@@ -59,18 +59,6 @@ float ParseFloat(const string &str) {
     return value;
 }
 
-int Object::getPropertyInt(const string &name) {
-    return atoi(properties[name].c_str());
-}
-
-float Object::getPropertyFloat(const string &name) {
-    return strtod(properties[name].c_str(), nullptr);
-}
-
-string Object::getPropertyString(const string &name) {
-    return properties[name];
-}
-
 bool Level::loadFromXmlFile(const string &filename) {
     XMLDocument levelFile;
 
@@ -292,22 +280,31 @@ vector<Object> Level::getAllObjects() {
 }
 
 Object Level::getObject(const string &name) {
+
     // Только первый объект с заданным именем
     for (auto &object: objects) {
+
         if (object.name == name) {
             return object;
         }
+
     }
 
     return Object();
 }
 
 vector<Object> Level::getObjects(const string &name) {
+
     // Все объекты с заданным именем
     vector<Object> vec;
-    for (auto &object: objects)
-        if (object.name == name)
+
+    for (auto &object: objects) {
+
+        if (object.name == name) {
             vec.push_back(object);
+        }
+
+    }
 
     return vec;
 }
@@ -317,12 +314,13 @@ Vector2i Level::getTileSize() const {
 }
 
 void Level::draw(RenderWindow &window) {
-    // Рисуем все тайлы (объекты НЕ рисуем!)
-    for (auto &layer: layers)
-        for (const auto &tile: layer.tiles)
-            window.draw(tile);
-}
 
-bool Level::loadFromString(const string &levelString) {
-    return false;
+    // Рисуем все тайлы (объекты НЕ рисуем!)
+    for (auto &layer: layers) {
+
+        for (const auto &tile: layer.tiles) {
+            window.draw(tile);
+        }
+
+    }
 }

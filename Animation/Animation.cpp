@@ -4,16 +4,14 @@
 
 #include "Animation.h"
 
-Animation::Animation(
-        Texture &t, int x, int y,
-        int w, int h, int count,
-        float speed, int step) {
+Animation::Animation(Texture &t, int x, int y, int w, int h, int count, float speed, int step) {
 
     sprite.setTexture(t);
 
     currentFrame = 0;
+
     this->speed = speed;
-    this->isPlaying = true;
+
     this->isFlip = false;
 
     for (unsigned i = 0; i < count; ++i) {
@@ -25,8 +23,6 @@ Animation::Animation(
 /* Обновляет анимацию в зависимости от времени.
    time - время */
 void Animation::update(float time) {
-    // Если анимация не играет, то выходим
-    if (!isPlaying) return;
 
     // Вычисляем текущий кадр
     currentFrame += speed * time;
@@ -42,15 +38,18 @@ void Animation::update(float time) {
     unsigned currentFrameNumber = currentFrame;
 
     // Устанавливаем текущий фрагмент анимации
-    if (!isFlip) sprite.setTextureRect(frames[currentFrameNumber]);
-    else sprite.setTextureRect(flipFrames[currentFrameNumber]);
+    if (!isFlip) {
+        sprite.setTextureRect(frames[currentFrameNumber]);
+    } else {
+        sprite.setTextureRect(flipFrames[currentFrameNumber]);
+    }
 }
 
 Animation::Animation() {
+
     speed = 0.0f;
     currentFrame = 0;
     isFlip = false;
-    isPlaying = true;
 }
 
 Sprite &Animation::getSprite() {
@@ -71,10 +70,6 @@ void Animation::setSpeed(float speed) {
 
 void Animation::setIsFlip(bool isReverse) {
     Animation::isFlip = isReverse;
-}
-
-void Animation::setIsPlaying(bool isPlaying) {
-    Animation::isPlaying = isPlaying;
 }
 
 Animation::~Animation() = default;

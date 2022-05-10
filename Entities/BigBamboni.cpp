@@ -20,6 +20,8 @@ void BigBamboni::update(float time) {
 
         dx = 0;
 
+        alive = false;
+
         timerEnd += time;
     }
 

@@ -12,12 +12,13 @@ using namespace sf;
 class Camera {
 private:
     View view;
+
 public:
-    View getPlayerCoordinateForView(float x, float y);
+    explicit Camera(FloatRect rect);
 
     const View &getView() const;
 
-    void reset(FloatRect fr);
+    void setCenter(float x, float y);
 };
 
 

@@ -16,7 +16,9 @@ using namespace std;
 class AnimationManager {
 private:
     map<string, Animation> nameAnimation;
+
     string currentAnimation;
+
 public:
     AnimationManager();
 

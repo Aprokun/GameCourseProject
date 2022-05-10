@@ -11,6 +11,7 @@ Entity::Entity(AnimationManager &a, int x, int y) {
     this->x = x;
     this->y = y;
 
+    alive = true;
 
     timer = 0;
 
@@ -23,8 +24,8 @@ void Entity::draw(RenderWindow &window) {
     animationManager.draw(window, x, y);
 }
 
-FloatRect Entity::getRect() {
-    return FloatRect(x, y, w, h);
+FloatRect Entity::getRect() const {
+    return {x, y, w, h};
 }
 
 void Entity::option(const string &name, float speed, int health, const string &initAnimationName) {
@@ -41,10 +42,6 @@ void Entity::option(const string &name, float speed, int health, const string &i
     this->health = health;
 }
 
-float Entity::getX() const {
-    return x;
-}
-
 int Entity::getHealth() const {
     return health;
 }
@@ -53,18 +50,26 @@ float Entity::getDy() const {
     return dy;
 }
 
-void Entity::setX(float x) {
-    Entity::x = x;
-}
-
 void Entity::setDx(float dx) {
-    Entity::dx = dx;
+    this->dx = dx;
 }
 
 void Entity::setDy(float dy) {
-    Entity::dy = dy;
+    this->dy = dy;
 }
 
 void Entity::setHealth(int health) {
-    Entity::health = health;
+    this->health = health;
+}
+
+bool Entity::isAlive() const {
+    return alive;
+}
+
+float Entity::getX() const {
+    return x;
+}
+
+float Entity::getY() const {
+    return y;
 }
