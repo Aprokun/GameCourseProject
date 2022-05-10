@@ -201,3 +201,8 @@ void HeroEntity::setCoins(unsigned int coins) {
 void HeroEntity::setTimer(int ms) {
     this->timer = ms;
 }
+
+HeroEntity *HeroEntity::getInstance(AnimationManager &a, Level &level, int x, int y) {
+    static auto *instance = new HeroEntity(a, level, x, y);
+    return instance;
+}

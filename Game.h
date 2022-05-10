@@ -45,7 +45,7 @@ public:
 
     static void drawCoinsAvailability(RenderWindow &window, Camera camera, const HeroEntity *hero);
 
-    static void handleHero(RenderWindow &window, Camera camera, HeroEntity *hero, float time);
+    static void handleHero(RenderWindow &window, HeroEntity *hero, float time);
 };
 
 

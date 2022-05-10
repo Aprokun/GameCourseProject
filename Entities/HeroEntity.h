@@ -15,6 +15,14 @@ using namespace std;
 
 class HeroEntity : public Entity {
 private:
+    HeroEntity() = default;
+
+    HeroEntity(const HeroEntity &);
+
+    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+
+    HeroEntity &operator=(HeroEntity &);
+
     bool hit, flip, hasKey;
 
     unsigned coins;
@@ -35,7 +43,7 @@ private:
 
 public:
 
-    HeroEntity(AnimationManager &a, Level &level, int x, int y);
+    static HeroEntity *getInstance(AnimationManager &a, Level &level, int x, int y);
 
     [[nodiscard]] bool isHit() const;
 

@@ -52,7 +52,7 @@ int Game::start() {
 
     // Инициализация главного героя
     Object heroObj = level.getObject("hero");
-    auto *hero = new HeroEntity(heroAM, level, heroObj.rect.left, heroObj.rect.top);
+    auto *hero = HeroEntity::getInstance(heroAM, level, heroObj.rect.left, heroObj.rect.top);
 
     // Инициализация предметов
     vector<Subject *> subjects;
@@ -97,7 +97,7 @@ int Game::start() {
 
         drawAllInfoText(window, camera, hero);
 
-        handleHero(window, camera, hero, time);
+        handleHero(window, hero, time);
 
         window.display();
     }
@@ -107,7 +107,7 @@ int Game::start() {
     exit(0);
 }
 
-void Game::handleHero(RenderWindow &window, Camera camera, HeroEntity *hero, float time) {
+void Game::handleHero(RenderWindow &window, HeroEntity *hero, float time) {
     hero->update(time);
     hero->draw(window);
 }
